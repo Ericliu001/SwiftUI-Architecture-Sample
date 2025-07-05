@@ -29,6 +29,7 @@ struct HomeScreen: View {
                 ) {
                     Image(systemName: "plus.circle.fill")
                         .font(.title)
+                        .foregroundColor(.blue)
                 }
                 .buttonStyle(.plain)
         
@@ -43,6 +44,7 @@ struct HomeScreen: View {
                 ) {
                     Image(systemName: "plus.circle.fill")
                         .font(.title)
+                        .foregroundColor(.blue)
                 }
                 .buttonStyle(.plain)
             }
