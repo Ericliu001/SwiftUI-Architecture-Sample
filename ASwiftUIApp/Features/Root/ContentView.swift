@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         @Bindable var router = router
         NavigationStack(path: $router.navigationPath) {
-            HomeScreen()
+            HomeScreen(router: router)
                 .navigationDestination(for: Destination.self) {
                     dest in
                     RouterView(router: router, destination: dest)

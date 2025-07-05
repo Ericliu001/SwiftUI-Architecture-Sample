@@ -15,7 +15,7 @@ struct RouterView: View {
     var body: some View {
         switch destination {
         case .home:
-            HomeScreen()
+            HomeScreen(router: router)
         case .conversation(let recipient):
             ConversationView(router: router, contact: recipient)
         case .contactDetail(let contact):

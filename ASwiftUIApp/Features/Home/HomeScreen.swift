@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeScreen: View {
     @Environment(DataModel.self) private var dataModel
-    @Environment(Router.self) var router
+    let router: Router
     
     var body: some View {
         
@@ -53,7 +53,6 @@ struct HomeScreen: View {
 }
 
 #Preview {
-    HomeScreen()
+    HomeScreen(router: Router())
         .environment(DataModel())
-        .environment(Router())
 }
