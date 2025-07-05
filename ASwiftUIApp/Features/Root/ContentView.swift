@@ -17,7 +17,7 @@ struct ContentView: View {
             HomeScreen()
                 .navigationDestination(for: Destination.self) {
                     dest in
-                    RouterView(destination: dest)
+                    RouterView(router: router, destination: dest)
                 }
         }
     }
@@ -26,5 +26,6 @@ struct ContentView: View {
 #Preview() {
     ContentView()
         .environment(DataModel())
+        .environment(Router())
 }
 

@@ -55,4 +55,5 @@ struct HomeScreen: View {
 #Preview {
     HomeScreen()
         .environment(DataModel())
+        .environment(Router())
 }

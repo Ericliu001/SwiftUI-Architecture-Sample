@@ -9,9 +9,7 @@
 import SwiftUI
 
 struct RouterView: View {
-    // In prduction, the Router instance should be provided by dependency injection.
-    @Environment(Router.self) var router
-    
+    let router: Router
     let destination: Destination
     
     var body: some View {
@@ -29,5 +27,5 @@ struct RouterView: View {
 }
 
 #Preview {
-    RouterView(destination: .home)
+    RouterView(router: Router() ,destination: .home)
 }
