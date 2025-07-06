@@ -259,16 +259,6 @@ ASwiftUIApp/
 - Feature isolation
 - Easy to add new navigation destinations
 
-### 5. Cross-Platform
-- Works on iOS, macOS, and visionOS
-- Platform-specific UI adaptations
-- Consistent navigation behavior
-
-## Requirements
-
-- iOS 17.0+ / macOS 14.0+ / visionOS 1.0+
-- Xcode 15.0+
-- Swift 5.9+
 
 ## Getting Started
 
