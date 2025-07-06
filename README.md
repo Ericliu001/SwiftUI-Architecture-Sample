@@ -75,7 +75,7 @@ final class Router: ContactRouter, ChatRouter {
 }
 ```
 
-The `Router` class serves as the single source of truth for navigation state. It manages the `navigationPath` array and provides methods for programmatic navigation.
+The `Router` class serves as the single source of truth for navigation state. It manages the `navigationPath` array and provides methods for programmatic navigation. While the implementation of routing logic is centralized, the interfaces for routing is defined by features, improving feature isolations.
 
 #### Feature-Specific Router Protocols
 
