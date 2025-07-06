@@ -54,7 +54,7 @@ The `Destination` enum defines all possible navigation states in a type-safe man
 - Associated values for passing data through navigation
 - Hashable conformance enables use with NavigationStack's path binding
 
-### 2. Centralized Router
+### 2. Centralized Router and Protocol-Based Routing
 
 ```swift
 @Observable
@@ -77,11 +77,26 @@ final class Router: ContactRouter, ChatRouter {
 
 The `Router` class serves as the single source of truth for navigation state. It manages the `navigationPath` array and provides methods for programmatic navigation.
 
+#### Feature-Specific Router Protocols
+
+```swift
+protocol ContactRouter {
+    func gotoConversation(recipient: Contact)
+    
+    func gotoContactDetail(_ contact: Contact)
+}
+```
+
+Each feature defines its own routing protocol, allowing for:
+
+- **Feature Isolation**: Features don't depend on concrete router implementation
+- **Testability**: Easy to mock routers for unit tests
+- **Dependency Inversion**: Features depend on abstractions, not concretions
+
 **Key Features:**
 - Single source of truth for navigation state
 - Programmatic control over navigation stack
 - Protocol conformance for feature-specific routing
-- Observable for automatic UI updates
 
 ### 3. NavigationStack Setup
 
@@ -136,45 +151,6 @@ The `RouterView` acts as a switch statement that maps destinations to their corr
 - Clean separation of navigation logic from view logic
 - Centralized view routing
 - Easy to maintain and extend
-
-## Protocol-Based Routing
-
-### Feature-Specific Router Protocols
-
-```swift
-protocol ContactRouter {
-    func gotoConversation(recipient: Contact)
-    
-    func gotoContactDetail(_ contact: Contact)
-}
-```
-
-Each feature defines its own routing protocol, allowing for:
-
-- **Feature Isolation**: Features don't depend on concrete router implementation
-- **Testability**: Easy to mock routers for unit tests
-- **Dependency Inversion**: Features depend on abstractions, not concretions
-
-### Mock Implementations
-
-```swift
-#if DEBUG
-class MockContactRouter: ContactRouter {
-    func gotoContactDetail(_ contact: Contact) {
-        // no-op for testing
-    }
-    
-    func gotoConversation(recipient: Contact) {
-        // no-op for testing
-    }
-    
-    static var shared: MockContactRouter = MockContactRouter()
-    private init() {}
-}
-#endif
-```
-
-Mock implementations are provided for testing and preview purposes.
 
 ## Programmatic Navigation
 
