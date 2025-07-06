@@ -182,9 +182,7 @@ class MockContactRouter: ContactRouter {
 
 Mock implementations are provided for testing and preview purposes.
 
-## Navigation Patterns
-
-### 1. Programmatic Navigation
+## Programmatic Navigation
 
 Views can trigger navigation programmatically by calling router methods:
 
@@ -203,35 +201,6 @@ Button("Start Chat") {
 Button("Add Contact") {
     router.gotoContactsList()
 }
-```
-
-### 2. Deep Linking Support
-
-The navigation system supports deep linking through the `navigationPath` array:
-
-```swift
-// Set a specific navigation path
-router.navigationPath = [.contactList, .contactDetail(contact)]
-
-// Reset to home
-router.navigationPath = []
-```
-
-### 3. Cross-Platform Navigation
-
-The navigation adapts to different platforms:
-
-```swift
-#if !os(macOS)
-.navigationBarTitleDisplayMode(.inline)
-.navigationBarItems(trailing: addButton)
-#elseif os(macOS)
-.toolbar {
-    ToolbarItem(placement: .automatic) {
-        addButton
-    }
-}
-#endif
 ```
 
 ## App Structure
