@@ -27,7 +27,7 @@ This sample project demonstrates advanced SwiftUI navigation techniques that sol
 
 ### Why This Approach?
 
-Traditional SwiftUI navigation with multiple `NavigationLink`s scattered throughout the view hierarchy can become difficult to manage as applications grow. This approach provides:
+SwiftUI navigation with multiple `NavigationLink`s scattered throughout the view hierarchy can become difficult to manage as applications grow. This approach provides:
 
 - **Centralized Control**: All navigation logic in one place
 - **Predictable State**: Clear navigation state management
