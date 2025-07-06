@@ -14,8 +14,6 @@ This sample project demonstrates advanced SwiftUI navigation techniques that sol
 - **Type-safe Navigation** with enum-based destinations
 - **Programmatic Navigation** using a centralized router
 - **Protocol-based Routing** for feature isolation and testability
-- **Cross-platform Navigation** (iOS, macOS, visionOS)
-- **Deep Linking Support** with NavigationStack
 
 ## Design Philosophy
 
@@ -23,7 +21,7 @@ This sample project demonstrates advanced SwiftUI navigation techniques that sol
 
 1. **Single Source of Truth**: One NavigationStack manages all navigation state
 2. **Type Safety**: Compile-time checking of navigation destinations
-3. **Dependency Inversion**: Features depend on protocols, not concrete implementations
+3. **Dependency Inversion**: Features depend on routing protocols, not concrete implementations
 4. **Testability**: Easy mocking and unit testing of navigation logic
 5. **Scalability**: Clean separation of concerns for large applications
 
@@ -146,11 +144,7 @@ The `RouterView` acts as a switch statement that maps destinations to their corr
 ```swift
 protocol ContactRouter {
     func gotoConversation(recipient: Contact)
-    func gotoContactDetail(_ contact: Contact)
-}
-
-protocol ChatRouter {
-    func gotoConversation(recipient: Contact)
+    
     func gotoContactDetail(_ contact: Contact)
 }
 ```
