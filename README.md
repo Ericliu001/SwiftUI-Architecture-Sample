@@ -355,9 +355,6 @@ let view = ContactDetailView(router: mockRouter, contact: testContact)
 
 This sample demonstrates modern SwiftUI navigation best practices that can be adapted for your own applications. Feel free to use this as a reference for implementing scalable navigation in your SwiftUI projects.
 
-## License
-
-This project is licensed under the same terms as the original Apple sample code.
 
 ---
 
