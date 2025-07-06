@@ -102,6 +102,7 @@ Each feature defines its own routing protocol, allowing for:
 
 ```swift
 struct ContentView: View {
+    // In prduction, the Router instance should be provided by dependency injection.
     @Environment(Router.self) var router
     
     var body: some View {
