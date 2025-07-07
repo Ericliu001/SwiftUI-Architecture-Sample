@@ -123,7 +123,7 @@ The main navigation container uses `NavigationStack` with a binding to the route
 
 **Key Benefits:**
 - Single NavigationStack for the entire app
-- Type-safe navigation with `navigationDestination`
+- Type-safe navigation with `.navigationDestination()`
 - Automatic state synchronization
 
 ### 4. Router View
@@ -239,29 +239,6 @@ ASwiftUIApp/
     └── ThumbnailView.swift
 ```
 
-## Key Benefits
-
-### 1. Type Safety
-- Compile-time checking of navigation destinations
-- Associated values ensure data integrity
-- No runtime crashes from invalid navigation states
-
-### 2. Centralized Control
-- All navigation logic in one place
-- Easy to debug and maintain
-- Predictable navigation behavior
-
-### 3. Testability
-- Easy to mock routers for unit tests
-- Isolated navigation logic
-- Protocol-based dependencies
-
-### 4. Scalability
-- Clean separation of concerns
-- Feature isolation
-- Easy to add new navigation destinations
-
-
 ## Getting Started
 
 1. Clone the repository
@@ -294,25 +271,6 @@ router.navigationPath = []
 2. Add navigation methods to the `Router` class
 3. Update the `RouterView` switch statement
 4. Create the corresponding view
-
-### Testing Navigation
-
-```swift
-// Use mock router for testing
-let mockRouter = MockContactRouter.shared
-let view = ContactDetailView(router: mockRouter, contact: testContact)
-
-// Test navigation calls
-// Verify that router methods are called with correct parameters
-```
-
-## Best Practices
-
-1. **Single NavigationStack**: Use only one NavigationStack at the root
-2. **Type Safety**: Always use enum-based destinations
-3. **Protocol Dependencies**: Features should depend on protocols, not concrete types
-4. **Centralized Router**: Keep all navigation logic in one place
-5. **Testability**: Design for easy testing with mock implementations
 
 ## Contributing
 
