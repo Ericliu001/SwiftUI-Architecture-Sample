@@ -2,7 +2,7 @@
 
 A comprehensive demonstration of modern SwiftUI navigation patterns using NavigationStack, programmatic navigation, and type-safe routing. This project showcases an opinionated approach to building scalable navigation in SwiftUI applications.
 
-Blog post: [Building Scalable SwiftUI Navigation](https://eric-liu-developer.medium.com/building-scalable-navigation-in-swiftui-wip-45ff2845e4e2)
+
 
 ## Overview
 ![Screenshot1](https://private-user-images.githubusercontent.com/3691022/462885743-473a45fb-14f5-4442-b103-7fac23e09b50.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTE3ODY2ODgsIm5iZiI6MTc1MTc4NjM4OCwicGF0aCI6Ii8zNjkxMDIyLzQ2Mjg4NTc0My00NzNhNDVmYi0xNGY1LTQ0NDItYjEwMy03ZmFjMjNlMDliNTAucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDcwNiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA3MDZUMDcxOTQ4WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NTYxODhjM2QxNDhhZWVkZGU1NWQxNTVhNmZiOWNkNjkxNWFjMWZjMTBjOWU1YjkzNWI3ZGQyN2YzY2UxZmJlMiZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.o45sOt66BgnXdwsp8MGq1eSWKF3-UXwvxEqmutTTmUI)
@@ -321,4 +321,4 @@ This sample demonstrates modern SwiftUI navigation best practices that can be ad
 
 ---
 
-*This sample demonstrates an opinionated approach to SwiftUI navigation that prioritizes type safety, testability, and scalability. For more details on the design philosophy, see the accompanying [blog post](https://eric-liu-developer.medium.com/building-scalable-navigation-in-swiftui-wip-45ff2845e4e2).*
+*This sample demonstrates an opinionated approach to SwiftUI navigation that prioritizes type safety, testability, and scalability. For more details on the design philosophy, see the accompanying blog post: [Building Scalable SwiftUI Navigation](https://eric-liu-developer.medium.com/building-scalable-navigation-in-swiftui-wip-45ff2845e4e2).*
