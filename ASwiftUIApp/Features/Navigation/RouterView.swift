@@ -18,14 +18,19 @@ struct RouterView: View {
             HomeScreen(router: router)
         case .conversation(let recipient):
             ConversationView(router: router, contact: recipient)
+                .toolbar(.hidden, for: .tabBar)
         case .contactDetail(let contact):
             ContactDetailView(router: router, contact: contact)
+                .toolbar(.hidden, for: .tabBar)
         case .contactList:
             ContactFeatureRootView(router: router)
+                .toolbar(.hidden, for: .tabBar)
         case .profile_settings:
             ProfileSettingsView()
+                .toolbar(.hidden, for: .tabBar)
         case .privacy_settings:
             PrivacySettingsView()
+                .toolbar(.hidden, for: .tabBar)
         }
     }
 }
