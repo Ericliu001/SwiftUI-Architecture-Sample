@@ -12,14 +12,26 @@ struct ContentView: View {
     @Environment(Router.self) var router
     
     var body: some View {
-        @Bindable var router = router
-        NavigationStack(path: $router.navigationPath) {
-            HomeScreen(router: router)
-                .navigationDestination(for: Destination.self) {
-                    dest in
-                    RouterView(router: router, destination: dest)
+            
+        TabView {
+            @Bindable var router = router
+            NavigationStack(path: $router.navigationPath) {
+                HomeScreen(router: router)
+                    .navigationDestination(for: Destination.self) {
+                        dest in
+                        RouterView(router: router, destination: dest)
+                    }
+            }
+            .tabItem {
+                Label("Chats", systemImage: "star")
+            }
+                
+            Text("Settings")
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
                 }
         }
+
     }
 }
 
