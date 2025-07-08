@@ -1,6 +1,6 @@
 # SwiftUI Navigation Sample
 
-A comprehensive demonstration of modern SwiftUI navigation patterns using NavigationStack, programmatic navigation, and type-safe routing. This project showcases an opinionated approach to building scalable navigation in SwiftUI applications.
+A comprehensive demonstration of modern SwiftUI navigation patterns using TabView, multiple NavigationStacks, programmatic navigation, and type-safe routing. This project showcases an opinionated approach to building scalable navigation in SwiftUI applications.
 
 Blog post: [Building Scalable SwiftUI Navigation](https://eric-liu-developer.medium.com/building-scalable-navigation-in-swiftui-wip-45ff2845e4e2)
 
@@ -10,7 +10,7 @@ Blog post: [Building Scalable SwiftUI Navigation](https://eric-liu-developer.med
 
 This sample project demonstrates advanced SwiftUI navigation techniques that solve common navigation challenges in complex applications:
 
-- **Single NavigationStack Architecture** - One and only NavigationStack at the root
+- **TabView with Multiple NavigationStacks** - Each tab has its own independent NavigationStack and navigation state
 - **Type-safe Navigation** with enum-based destinations
 - **Programmatic Navigation** using a centralized router
 - **Protocol-based Routing** for feature isolation and testability
@@ -19,11 +19,12 @@ This sample project demonstrates advanced SwiftUI navigation techniques that sol
 
 ### Core Principles
 
-1. **Single Source of Truth**: One NavigationStack manages all navigation state
+1. **Single Source of Truth**: The Router manages all navigation state for each tab
 2. **Type Safety**: Compile-time checking of navigation destinations
 3. **Dependency Inversion**: Features depend on routing protocols, not concrete implementations
 4. **Testability**: Easy mocking and unit testing of navigation logic
 5. **Scalability**: Clean separation of concerns for large applications
+6. **State Retention**: Each tab retains its navigation stack when switching tabs
 
 ### Why This Approach?
 
@@ -33,6 +34,7 @@ Traditional SwiftUI navigation with multiple `NavigationLink`s scattered through
 - **Predictable State**: Clear navigation state management
 - **Better Testing**: Isolated navigation logic for unit tests
 - **Feature Isolation**: Each feature defines its own routing needs
+- **Independent Tab Navigation**: Each tab maintains its own navigation history, improving user experience
 
 ## Navigation Architecture
 
@@ -44,6 +46,8 @@ enum Destination: Hashable {
     case contactList
     case conversation(Contact)
     case contactDetail(Contact)
+    case profile_settings
+    case privacy_settings
 }
 ```
 
@@ -58,31 +62,21 @@ The `Destination` enum defines all possible navigation states in a type-safe man
 
 ```swift
 @Observable
-final class Router: ContactRouter, ChatRouter {
+final class Router: ContactRouter, ChatRouter, SettingsRouter {
+    var selectedTab: Tabs = .chats
     var chatTabPath: [Destination] = []
-    
-    func gotoConversation(recipient: Contact) {
-        chatTabPath = [.conversation(recipient)]
-    }
-    
-    func gotoContactDetail(_ contact: Contact) {
-        chatTabPath.append(.contactDetail(contact))
-    }
-    
-    func gotoContactsList() {
-        chatTabPath.append(.contactList)
-    }
+    var settingsTabPath: [Destination] = []
+    // ... navigation methods for each tab ...
 }
 ```
 
-The `Router` class serves as the single source of truth for navigation state. It manages the `chatTabPath` array and provides methods for programmatic navigation. While the implementation of routing logic is centralized, the interfaces for routing is defined by features, improving feature isolations.
+The `Router` class serves as the single source of truth for navigation state. It manages a separate navigation path for each tab (e.g., `chatTabPath`, `settingsTabPath`) and provides methods for programmatic navigation. While the implementation of routing logic is centralized, the interfaces for routing are defined by features, improving feature isolation.
 
 #### Feature-Specific Router Protocols
 
 ```swift
 protocol ContactRouter {
     func gotoConversation(recipient: Contact)
-    
     func gotoContactDetail(_ contact: Contact)
 }
 ```
@@ -98,30 +92,49 @@ Each feature defines its own routing protocol, allowing for:
 - Programmatic control over navigation stack
 - Protocol conformance for feature-specific routing
 
-### 3. NavigationStack Setup
+### 3. TabView and Multiple NavigationStacks Setup
 
 ```swift
 struct ContentView: View {
     @Environment(Router.self) var router
-    
     var body: some View {
         @Bindable var router = router
-        NavigationStack(path: $router.chatTabPath) {
-            HomeScreen(router: router)
-                .navigationDestination(for: Destination.self) { dest in
-                    RouterView(router: router, destination: dest)
+        TabView(selection: $router.selectedTab) {
+            Tab(
+                Tabs.chats.name,
+                systemImage: Tabs.chats.systemImageName,
+                value: Tabs.chats
+            ) {
+                NavigationStack(path: $router.chatTabPath) {
+                    HomeScreen(router: router)
+                        .navigationDestination(for: Destination.self) { dest in
+                            RouterView(router: router, destination: dest)
+                        }
                 }
+            }
+            Tab(
+                Tabs.settings.name,
+                systemImage: Tabs.settings.systemImageName,
+                value: Tabs.settings
+            ) {
+                NavigationStack(path: $router.settingsTabPath) {
+                    SettingsHomeView(router: router)
+                        .navigationDestination(for: Destination.self) { dest in
+                            RouterView(router: router, destination: dest)
+                        }
+                }
+            }
         }
     }
 }
 ```
 
-The main navigation container uses `NavigationStack` with a binding to the router's `chatTabPath`. This creates a single navigation stack that manages all navigation state.
+The main navigation container uses a `TabView` with a separate `NavigationStack` for each tab, each bound to its own navigation path in the router. This allows each tab to maintain its own navigation history independently.
 
 **Key Benefits:**
-- Single NavigationStack for the entire app
+- Independent navigation stacks for each tab
 - Type-safe navigation with `navigationDestination`
-- Automatic state synchronization
+- Automatic state synchronization and retention when switching tabs
 
 ### 4. Router View
 
@@ -129,7 +142,6 @@ The main navigation container uses `NavigationStack` with a binding to the route
 struct RouterView: View {
     let router: Router
     let destination: Destination
-    
     var body: some View {
         switch destination {
         case .home:
@@ -140,6 +152,10 @@ struct RouterView: View {
             ContactDetailView(router: router, contact: contact)
         case .contactList:
             ContactFeatureRootView(router: router)
+        case .profile_settings:
+            ProfileSettingsView()
+        case .privacy_settings:
+            PrivacySettingsView()
         }
     }
 }
@@ -183,58 +199,26 @@ The sample app demonstrates a chat application with the following navigation flo
 2. **Contact List** → Displays contacts in table or list format  
 3. **Contact Detail** → Shows detailed contact information
 4. **Conversation** → Chat interface with the selected contact
+5. **Settings** → Profile and privacy settings, each with their own navigation stack
 
 ### Navigation Flows
 
 **Flow 1: Enter Existing Conversation**
 ```
-Home → Conversation → Contact Detail 
+Chats Tab → Home → Conversation → Contact Detail 
 ```
 
 **Flow 2: Start New Conversation**
 ```
-Home → Contact List → Contact Detail → Conversation
+Chats Tab → Home → Contact List → Contact Detail → Conversation
 ```
 
-The navigation stack maintains the proper state for each flow, allowing users to navigate back through the stack naturally.
-
-## Project Structure
-
+**Flow 3: Settings Navigation**
 ```
-ASwiftUIApp/
-├── Features/
-│   ├── Navigation/
-│   │   ├── Destination.swift      # Navigation destinations enum
-│   │   ├── Router.swift          # Central navigation router
-│   │   └── RouterView.swift      # View router
-│   ├── Contact/
-│   │   ├── ContactRouter.swift   # Contact-specific routing protocol
-│   │   ├── ContactDetailView.swift
-│   │   ├── ContactFeatureRootView.swift
-│   │   ├── ContactInfoView.swift
-│   │   ├── ContactList.swift
-│   │   └── ContactsTable.swift
-│   ├── Chat/
-│   │   ├── ChatRouter.swift      # Chat-specific routing protocol
-│   │   ├── ChatListItemView.swift
-│   │   ├── ChatsView.swift
-│   │   ├── ConversationView.swift
-│   │   └── MessageBubbleView.swift
-│   ├── Home/
-│   │   └── HomeScreen.swift      # Main home screen
-│   └── Root/
-│       ├── ASwiftUIAppApp.swift  # App entry point
-│       └── ContentView.swift     # Main navigation container
-├── Models/
-│   ├── Chat.swift
-│   ├── Contact.swift
-│   ├── DataModel.swift
-│   └── Message.swift
-└── Views/
-    ├── DisplayModePicker.swift
-    ├── HeaderView.swift
-    └── ThumbnailView.swift
+Settings Tab → Settings Home → Profile Settings / Privacy Settings
 ```
+
+Each tab maintains its own navigation stack, allowing users to switch tabs and return to their previous navigation state within each tab.
 
 ## Key Benefits
 
@@ -263,11 +247,6 @@ ASwiftUIApp/
 - Platform-specific UI adaptations
 - Consistent navigation behavior
 
-## Requirements
-
-- iOS 17.0+ / macOS 14.0+ / visionOS 1.0+
-- Xcode 15.0+
-- Swift 5.9+
 
 ## Getting Started
 
@@ -315,11 +294,12 @@ let view = ContactDetailView(router: mockRouter, contact: testContact)
 
 ## Best Practices
 
-1. **Single NavigationStack**: Use only one NavigationStack at the root
+1. **TabView with Multiple NavigationStacks**: Use a TabView at the root, with a separate NavigationStack for each tab
 2. **Type Safety**: Always use enum-based destinations
 3. **Protocol Dependencies**: Features should depend on protocols, not concrete types
 4. **Centralized Router**: Keep all navigation logic in one place
 5. **Testability**: Design for easy testing with mock implementations
+6. **State Retention**: Let each tab maintain its own navigation history for a better user experience
 
 ## Contributing
 
