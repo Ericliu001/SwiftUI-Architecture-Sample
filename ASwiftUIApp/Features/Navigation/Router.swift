@@ -10,18 +10,33 @@ import Foundation
 import SwiftUI
 
 @Observable
-final class Router: ContactRouter, ChatRouter {
-    var navigationPath : [Destination] = []
+final class Router: ContactRouter, ChatRouter, SettingsRouter {
+    var selectedTab: Tabs = .chats
+    var chatTabPath : [Destination] = []
+    var settingsTabPath: [Destination] = []
+    
+    func gotoChats() {
+        selectedTab = .chats
+        chatTabPath = []
+    }
     
     func gotoConversation(recipient: Contact) {
-        navigationPath = [.conversation(recipient)]
+        chatTabPath = [.conversation(recipient)]
     }
     
     func gotoContactDetail(_ contact: Contact){
-        navigationPath.append(.contactDetail(contact))
+        chatTabPath.append(.contactDetail(contact))
     }
     
     func gotoContactsList(){
-        navigationPath.append(.contactList)
+        chatTabPath.append(.contactList)
+    }
+    
+    func goToProfile() {
+        settingsTabPath.append(.profile_settings)
+    }
+    
+    func gotoPrivacy() {
+        settingsTabPath.append(.privacy_settings)
     }
 }

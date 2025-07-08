@@ -13,28 +13,10 @@ struct HomeScreen: View {
     let router: Router
     
     var body: some View {
-        
         VStack{
             ChatsView(router: router)
         }
         .navigationTitle("Chats")
-        #if !os(macOS)
-        .navigationBarTitleDisplayMode(.inline) // ← This forces the title to be inline
-        .navigationBarItems(
-            trailing:
-                Button(
-                    action: {
-                        router.gotoContactsList()
-                    }
-                ) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.title)
-                        .foregroundColor(.blue)
-                }
-                .buttonStyle(.plain)
-        
-        )
-        #elseif os(macOS)
         .toolbar {
             ToolbarItem(placement: .automatic) {
                 Button(
@@ -49,8 +31,6 @@ struct HomeScreen: View {
                 .buttonStyle(.plain)
             }
         }
-        #endif
-        
     }
 }
 

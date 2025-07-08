@@ -13,13 +13,36 @@ struct ContentView: View {
     
     var body: some View {
         @Bindable var router = router
-        NavigationStack(path: $router.navigationPath) {
-            HomeScreen(router: router)
-                .navigationDestination(for: Destination.self) {
-                    dest in
-                    RouterView(router: router, destination: dest)
+        TabView(selection: $router.selectedTab) {
+            Tab(
+                Tabs.chats.name,
+                systemImage: Tabs.chats.systemImageName,
+                value: Tabs.chats
+            ) {
+                NavigationStack(path: $router.chatTabPath) {
+                    HomeScreen(router: router)
+                        .navigationDestination(for: Destination.self) {
+                            dest in
+                            RouterView(router: router, destination: dest)
+                        }
                 }
+            }
+            
+            Tab(
+                Tabs.settings.name,
+                systemImage: Tabs.settings.systemImageName,
+                value: Tabs.settings
+            ) {
+                NavigationStack(path: $router.settingsTabPath) {
+                    SettingsHomeView(router: router)
+                        .navigationDestination(for: Destination.self) {
+                            dest in
+                            RouterView(router: router, destination: dest)
+                        }
+                }
+            }
         }
+
     }
 }
 

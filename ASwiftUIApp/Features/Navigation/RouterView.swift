@@ -22,6 +22,10 @@ struct RouterView: View {
             ContactDetailView(router: router, contact: contact)
         case .contactList:
             ContactFeatureRootView(router: router)
+        case .profile_settings:
+            ProfileSettingsView()
+        case .privacy_settings:
+            PrivacySettingsView()
         }
     }
 }
