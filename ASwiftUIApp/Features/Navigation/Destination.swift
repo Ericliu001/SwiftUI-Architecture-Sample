@@ -14,4 +14,6 @@ enum Destination: Hashable {
     case contactList
     case conversation(Contact)
     case contactDetail(Contact)
+    case profile_settings
+    case privacy_settings
 }

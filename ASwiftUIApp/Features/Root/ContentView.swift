@@ -37,7 +37,11 @@ struct ContentView: View {
                 value: Tabs.settings
             ) {
                 NavigationStack(path: $router.settingsTabPath) {
-                    Text("Settings")
+                    SettingsHome(router: router)
+                        .navigationDestination(for: Destination.self) {
+                            dest in
+                            RouterView(router: router, destination: dest)
+                        }
                 }
             }
         }
