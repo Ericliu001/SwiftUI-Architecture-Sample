@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SettingsHome: View {
+struct SettingsHomeView: View {
     let router: SettingsRouter
     
     var body: some View {
@@ -26,6 +26,12 @@ struct SettingsHome: View {
                 Toggle("Enable Notifications", isOn: .constant(true))
                 Toggle("Dark Mode", isOn: .constant(false))
             }
+            
+            Section {
+                Button("Back to Chats") {
+                    router.gotoChats()
+                }
+            }
 
             Section {
                 Button(role: .destructive) {
@@ -41,5 +47,5 @@ struct SettingsHome: View {
 }
 
 #Preview {
-    SettingsHome(router: MockSettingsRouter.shared)
+    SettingsHomeView(router: MockSettingsRouter.shared)
 }

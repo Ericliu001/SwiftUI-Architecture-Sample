@@ -11,12 +11,9 @@ struct ContentView: View {
     // In prduction, the Router instance should be provided by dependency injection.
     @Environment(Router.self) var router
     
-    @State private var selectedTab: Tabs = .chats
-    
     var body: some View {
-        TabView(selection: $selectedTab) {
-            @Bindable var router = router
-            
+        @Bindable var router = router
+        TabView(selection: $router.selectedTab) {
             Tab(
                 Tabs.chats.name,
                 systemImage: Tabs.chats.systemImageName,
@@ -37,7 +34,7 @@ struct ContentView: View {
                 value: Tabs.settings
             ) {
                 NavigationStack(path: $router.settingsTabPath) {
-                    SettingsHome(router: router)
+                    SettingsHomeView(router: router)
                         .navigationDestination(for: Destination.self) {
                             dest in
                             RouterView(router: router, destination: dest)
