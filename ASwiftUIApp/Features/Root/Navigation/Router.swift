@@ -28,7 +28,7 @@ final class Router: ContactRouter, ChatRouter, SettingsRouter {
         chatTabPath.append(.contactDetail(contact))
     }
     
-    func gotoContactsList(){
+    func gotoContactList(){
         chatTabPath.append(.contactList)
     }
     

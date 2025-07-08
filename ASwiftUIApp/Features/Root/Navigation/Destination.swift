@@ -10,7 +10,6 @@ import Foundation
 
 
 enum Destination: Hashable {
-    case home
     case contactList
     case conversation(Contact)
     case contactDetail(Contact)

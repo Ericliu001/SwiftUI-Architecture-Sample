@@ -20,7 +20,7 @@ struct ContentView: View {
                 value: Tabs.chats
             ) {
                 NavigationStack(path: $router.chatTabPath) {
-                    HomeScreen(router: router)
+                    ChatFeatureRootView(router: router)
                         .navigationDestination(for: Destination.self) {
                             dest in
                             RouterView(router: router, destination: dest)

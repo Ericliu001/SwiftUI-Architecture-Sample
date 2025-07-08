@@ -14,8 +14,6 @@ struct RouterView: View {
     
     var body: some View {
         switch destination {
-        case .home:
-            HomeScreen(router: router)
         case .conversation(let recipient):
             ConversationView(router: router, contact: recipient)
                 .toolbar(.hidden, for: .tabBar)
@@ -36,5 +34,5 @@ struct RouterView: View {
 }
 
 #Preview {
-    RouterView(router: Router() ,destination: .home)
+    RouterView(router: Router() ,destination: .contactList)
 }

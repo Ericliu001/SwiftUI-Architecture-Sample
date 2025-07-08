@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct HomeScreen: View {
+struct ChatFeatureRootView: View {
     @Environment(DataModel.self) private var dataModel
-    let router: Router
+    let router: ChatRouter
     
     var body: some View {
         VStack{
@@ -21,7 +21,7 @@ struct HomeScreen: View {
             ToolbarItem(placement: .automatic) {
                 Button(
                     action: {
-                        router.gotoContactsList()
+                        router.gotoContactList()
                     }
                 ) {
                     Image(systemName: "plus.circle.fill")
@@ -35,6 +35,6 @@ struct HomeScreen: View {
 }
 
 #Preview {
-    HomeScreen(router: Router())
+    ChatFeatureRootView(router: Router())
         .environment(DataModel())
 }

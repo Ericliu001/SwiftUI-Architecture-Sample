@@ -12,12 +12,18 @@ protocol ChatRouter {
     func gotoConversation(recipient: Contact)
     
     func gotoContactDetail(_ contact: Contact)
+    
+    func gotoContactList()
 }
 
 
 #if DEBUG
 class MockChatRouter: ChatRouter {
     static let shared = MockChatRouter()
+    
+    func gotoContactList() {
+        // No-op
+    }
     
     func gotoConversation(recipient: Contact) {
         // No-op
