@@ -59,23 +59,23 @@ The `Destination` enum defines all possible navigation states in a type-safe man
 ```swift
 @Observable
 final class Router: ContactRouter, ChatRouter {
-    var navigationPath: [Destination] = []
+    var chatTabPath: [Destination] = []
     
     func gotoConversation(recipient: Contact) {
-        navigationPath = [.conversation(recipient)]
+        chatTabPath = [.conversation(recipient)]
     }
     
     func gotoContactDetail(_ contact: Contact) {
-        navigationPath.append(.contactDetail(contact))
+        chatTabPath.append(.contactDetail(contact))
     }
     
     func gotoContactsList() {
-        navigationPath.append(.contactList)
+        chatTabPath.append(.contactList)
     }
 }
 ```
 
-The `Router` class serves as the single source of truth for navigation state. It manages the `navigationPath` array and provides methods for programmatic navigation. While the implementation of routing logic is centralized, the interfaces for routing is defined by features, improving feature isolations.
+The `Router` class serves as the single source of truth for navigation state. It manages the `chatTabPath` array and provides methods for programmatic navigation. While the implementation of routing logic is centralized, the interfaces for routing is defined by features, improving feature isolations.
 
 #### Feature-Specific Router Protocols
 
@@ -106,7 +106,7 @@ struct ContentView: View {
     
     var body: some View {
         @Bindable var router = router
-        NavigationStack(path: $router.navigationPath) {
+        NavigationStack(path: $router.chatTabPath) {
             HomeScreen(router: router)
                 .navigationDestination(for: Destination.self) { dest in
                     RouterView(router: router, destination: dest)
@@ -116,7 +116,7 @@ struct ContentView: View {
 }
 ```
 
-The main navigation container uses `NavigationStack` with a binding to the router's `navigationPath`. This creates a single navigation stack that manages all navigation state.
+The main navigation container uses `NavigationStack` with a binding to the router's `chatTabPath`. This creates a single navigation stack that manages all navigation state.
 
 **Key Benefits:**
 - Single NavigationStack for the entire app
@@ -292,7 +292,7 @@ router.gotoContactDetail(contact)
 router.gotoConversation(recipient: contact)
 
 // Reset navigation to home
-router.navigationPath = []
+router.chatTabPath = []
 ```
 
 ### Adding New Destinations
