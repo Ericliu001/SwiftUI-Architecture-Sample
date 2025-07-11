@@ -15,10 +15,14 @@ struct SettingsHomeView: View {
         Form {
             Section(header: Text("Account")) {
                 Button("Profile") {
-                    router.goToProfile()
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                        router.goToProfile()
+                    }
                 }
                 Button("Privacy") {
-                    router.gotoPrivacy()
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                        router.gotoPrivacy()
+                    }
                 }
             }
 
@@ -29,7 +33,9 @@ struct SettingsHomeView: View {
             
             Section {
                 Button("Back to Chats") {
-                    router.gotoChats()
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                        router.gotoChats()
+                    }
                 }
             }
 

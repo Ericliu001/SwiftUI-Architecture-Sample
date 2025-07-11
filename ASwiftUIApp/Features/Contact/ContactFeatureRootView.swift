@@ -17,10 +17,19 @@ struct ContactFeatureRootView: View {
             switch dataModel.displayMode {
             case .table:
                 ContactTable(router: router)
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
             case .list:
                 ContactList(router: router)
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .leading).combined(with: .opacity),
+                        removal: .move(edge: .trailing).combined(with: .opacity)
+                    ))
             }
         }
+        .animation(.easeInOut(duration: 0.3), value: dataModel.displayMode)
         .environment(dataModel)
         .navigationTitle("Contacts")
         .toolbar {

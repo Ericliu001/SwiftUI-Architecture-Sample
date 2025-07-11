@@ -18,12 +18,16 @@ struct ChatsView: View {
             List {
                 ForEach(chats) { chat in
                     Button(action: {
-                        router.gotoConversation(recipient: chat.recipient)
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                            router.gotoConversation(recipient: chat.recipient)
+                        }
                     })
                     {
                         ChatListItemView(chat: chat)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .contentShape(Rectangle())
+                            .scaleEffect(1.0)
+                            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: chat.id)
                     }
                     .buttonStyle(.plain)
                 }

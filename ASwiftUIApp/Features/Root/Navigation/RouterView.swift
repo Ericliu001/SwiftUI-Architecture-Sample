@@ -17,18 +17,26 @@ struct RouterView: View {
         case .conversation(let recipient):
             ConversationView(router: router, contact: recipient)
                 .toolbar(.hidden, for: .tabBar)
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
         case .contactDetail(let contact):
             ContactDetailView(router: router, contact: contact)
                 .toolbar(.hidden, for: .tabBar)
+                .transition(.scale(scale: 0.8).combined(with: .opacity))
         case .contactList:
             ContactFeatureRootView(router: router)
                 .toolbar(.hidden, for: .tabBar)
+                .transition(.move(edge: .bottom))
         case .profile_settings:
             ProfileSettingsView()
                 .toolbar(.hidden, for: .tabBar)
+                .transition(.move(edge: .trailing))
         case .privacy_settings:
             PrivacySettingsView()
                 .toolbar(.hidden, for: .tabBar)
+                .transition(.move(edge: .trailing))
         }
     }
 }

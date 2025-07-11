@@ -21,7 +21,9 @@ struct ChatFeatureRootView: View {
             ToolbarItem(placement: .automatic) {
                 Button(
                     action: {
-                        router.gotoContactList()
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                            router.gotoContactList()
+                        }
                     }
                 ) {
                     Image(systemName: "plus.circle.fill")

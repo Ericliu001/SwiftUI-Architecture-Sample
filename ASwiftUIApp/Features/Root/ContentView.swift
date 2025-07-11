@@ -26,6 +26,7 @@ struct ContentView: View {
                             RouterView(router: router, destination: dest)
                         }
                 }
+                .animation(.easeInOut(duration: 0.3), value: router.chatTabPath)
             }
             
             Tab(
@@ -40,6 +41,7 @@ struct ContentView: View {
                             RouterView(router: router, destination: dest)
                         }
                 }
+                .animation(.easeInOut(duration: 0.3), value: router.settingsTabPath)
             }
         }
 
