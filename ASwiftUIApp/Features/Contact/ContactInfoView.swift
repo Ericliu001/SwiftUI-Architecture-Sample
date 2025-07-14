@@ -10,7 +10,7 @@ import SwiftUI
 struct ContactInfoView: View {
     let scope: ContactScope
     var contact: Contact
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -24,9 +24,9 @@ struct ContactInfoView: View {
                 LabeledContent("Phone number") {
                     HStack {
                         Text(contact.phoneNumber)
-                        
+
                         Spacer()
-                        
+
                         Button(action: {
                             scope.router.gotoConversation(recipient: contact)
                         }) {

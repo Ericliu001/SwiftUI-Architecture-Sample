@@ -16,7 +16,7 @@ struct HeaderView: View {
     var contact: Contact
     var height: CGFloat
     var width: CGFloat
-    
+
     var body: some View {
         VStack {
             if let videoUrl = contact.videoURL {
@@ -73,7 +73,7 @@ struct HeaderView: View {
 struct VideoView: View {
     var videoUrl: URL
     @State private var player: AVPlayer?
-    
+
     var body: some View {
         VideoPlayer(player: player)
         .task {

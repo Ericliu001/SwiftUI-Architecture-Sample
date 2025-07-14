@@ -12,12 +12,12 @@ struct ConversationView: View {
     private let scope: ChatScope
     private let contact: Contact
     @State private var messageText: String = ""
-    
+
     init(scope: ChatScope, contact: Contact) {
         self.scope = scope
         self.contact = contact
     }
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -27,7 +27,7 @@ struct ConversationView: View {
                     Group {
                         ThumbnailView(contact: contact)
                             .frame(width: 60, height: 60)
-                        
+
                         Text("\(contact.fullName)")
                     }
                 }
@@ -36,9 +36,9 @@ struct ConversationView: View {
             .padding()
             .frame(maxWidth: .infinity)
             .background(Color.gray.opacity(0.1))
-            
+
             Spacer()
-            
+
             List {
                 ForEach(
                     Array(scope.messages.enumerated()),
@@ -55,14 +55,14 @@ struct ConversationView: View {
             }
             .listStyle(PlainListStyle()) // Remove the default list style
             .background(Color.clear)
-            
+
             HStack {
                 TextField("Type a message...", text: $messageText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                
+
                 Button(action: {
                     guard !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-                    
+
                     let newMessage = Message(
                         senderId: "1",
                         text: messageText

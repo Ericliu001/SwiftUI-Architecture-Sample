@@ -16,7 +16,7 @@ final class Message {
     var imageIds: [UUID]
     var timestamp: Date
     var errorMessage: String?
-    
+
     init(id: UUID = UUID(), senderId: String, text: String, imageIds: [UUID] = [], timestamp: Date = Date(), errorMessage: String? = nil) {
         self.id = id
         self.text = text

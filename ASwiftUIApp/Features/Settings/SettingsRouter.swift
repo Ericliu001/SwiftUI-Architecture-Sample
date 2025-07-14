@@ -10,25 +10,25 @@ import Foundation
 
 protocol SettingsRouter {
     func goToProfile()
-    
+
     func gotoPrivacy()
-    
+
     func gotoChats()
 }
 
 #if DEBUG
 class MockSettingsRouter: SettingsRouter {
     static let shared = MockSettingsRouter()
-    
+
     func gotoChats() {
         // No-op
     }
-    
+
     func gotoPrivacy() {
         // No-op
     }
-    
-    
+
+
     func goToProfile() {
         // No-op
     }

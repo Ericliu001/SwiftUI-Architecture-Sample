@@ -10,9 +10,9 @@ import SwiftUI
 
 struct ChatListView: View {
     @State private var chats = Chat.mock
-    
+
     let scope: ChatScope
-    
+
     var body: some View {
         VStack(alignment: .leading){
             List {

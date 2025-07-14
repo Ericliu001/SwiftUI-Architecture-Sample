@@ -34,7 +34,6 @@ struct PrivacySettingsView: View {
             Section {
                 Button("Manage App Permissions") {
                     // Insert action to open system settings if desired
-                    print("Manage App Permissions tapped")
                 }
             }
         }

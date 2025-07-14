@@ -11,9 +11,9 @@ import UniformTypeIdentifiers
 
 struct ContactList: View {
     @State private var isTargeted = false
-    
+
     let scope: ContactScope
-    
+
     var body: some View {
         List {
             ForEach(scope.dataModel.contacts) { contact in

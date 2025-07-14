@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     private let scope: RootScope
-    
+
     init(scope: RootScope) {
         self.scope = scope
     }
-    
+
     var body: some View {
         @Bindable var router = scope.rootRouter
         TabView(selection: $router.selectedTab) {
@@ -30,7 +30,7 @@ struct ContentView: View {
                         }
                 }
             }
-            
+
             Tab(
                 Tabs.settings.name,
                 systemImage: Tabs.settings.systemImageName,

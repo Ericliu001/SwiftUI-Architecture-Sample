@@ -11,12 +11,12 @@ import SwiftUI
 struct RouterView: View {
     private let scope: RootScope
     private let destination: Destination
-    
+
     init(scope: RootScope, destination: Destination) {
         self.scope = scope
         self.destination = destination
     }
-    
+
     var body: some View {
         switch destination {
         case .conversation(let recipient):

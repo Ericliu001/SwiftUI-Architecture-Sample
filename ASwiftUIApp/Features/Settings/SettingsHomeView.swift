@@ -1,5 +1,5 @@
 //
-//  SettingsHome.swift
+//  SettingsHomeView.swift
 //  ASwiftUIApp
 //
 //  Created by Eric Liu on 7/8/25.
@@ -10,14 +10,14 @@ import SwiftUI
 
 struct SettingsHomeView: View {
     let scope: SettingsScope
-    
+
     @State private var notificationsEnabled = true
     @State private var darkModeEnabled = false
-    
+
     init(scope: SettingsScope) {
         self.scope = scope
     }
-    
+
     var body: some View {
         Form {
             Section(header: Text("Account")) {
@@ -33,7 +33,7 @@ struct SettingsHomeView: View {
                 Toggle("Enable Notifications", isOn: $notificationsEnabled)
                 Toggle("Dark Mode", isOn: $darkModeEnabled)
             }
-            
+
             Section {
                 Button("Back to Chats") {
                     scope.router.gotoChats()
@@ -42,7 +42,7 @@ struct SettingsHomeView: View {
 
             Section {
                 Button(role: .destructive) {
-                    print("User tapped Sign Out")
+                    // Handle sign out action
                 } label: {
                     Text("Sign Out")
                 }

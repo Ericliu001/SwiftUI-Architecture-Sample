@@ -42,7 +42,7 @@ class DataModel {
         #endif
         return nil
     }
-    
+
     static func loadItem(selection: PhotosPickerItem?) async throws -> Video? {
         try await selection?.loadTransferable(type: Video.self)
     }
@@ -50,7 +50,7 @@ class DataModel {
 
 struct Video: Transferable {
     var url: URL
-    
+
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(contentType: .movie) { item in
             SentTransferredFile(item.url)
@@ -59,7 +59,7 @@ struct Video: Transferable {
             return Video(url: url)
         }
     }
-    
+
     /// Copies a file from source URL to a user's library directory.
     static func copyLibraryFile(from source: URL) throws -> URL {
         let libraryDirectory = try FileManager.default.url(

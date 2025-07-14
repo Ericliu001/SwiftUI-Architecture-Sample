@@ -13,10 +13,10 @@ struct ContactDetailView: View {
         case table
         case list
     }
-    
+
     let scope: ContactScope
     var contact: Contact
-    
+
     var body: some View {
         GeometryReader { geometry in
             ScrollView {

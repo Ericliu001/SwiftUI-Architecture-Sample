@@ -10,9 +10,9 @@ import Foundation
 
 protocol ChatRouter {
     func gotoConversation(recipient: Contact)
-    
+
     func gotoContactDetail(_ contact: Contact)
-    
+
     func gotoContactList()
 }
 
@@ -20,15 +20,15 @@ protocol ChatRouter {
 #if DEBUG
 class MockChatRouter: ChatRouter {
     static let shared = MockChatRouter()
-    
+
     func gotoContactList() {
         // No-op
     }
-    
+
     func gotoConversation(recipient: Contact) {
         // No-op
     }
-    
+
     func gotoContactDetail(_ contact: Contact) {
         // no-op
     }

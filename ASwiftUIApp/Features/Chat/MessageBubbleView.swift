@@ -10,15 +10,15 @@ import SwiftUI
 struct MessageBubbleView: View {
     let message: Message
     let isSentByCurrentUser: Bool
-    
-    
+
+
     var body: some View {
         HStack{
             if isSentByCurrentUser {
                 Spacer()
                 VStack(alignment: .trailing) {
                     if !message.text.isEmpty {
-                        
+
                         Text(message.text)
                             .padding(10)
                             .background(.green.gradient)
@@ -29,7 +29,7 @@ struct MessageBubbleView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.leading, 20)
-                
+
             } else {
                 Text(message.text)
                     .padding(10)

@@ -15,7 +15,7 @@ class Chat: Identifiable {
     var name: String
     var messages: [Message] = []
     var recipient : Contact
-    
+
     init(id: UUID = .init(), name: String = "", recipient: Contact) {
         self.id = id
         self.name = name

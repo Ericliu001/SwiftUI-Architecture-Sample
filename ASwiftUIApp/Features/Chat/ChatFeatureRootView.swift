@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ChatFeatureRootView: View {
     let scope: ChatScope
-    
+
     init(scope: ChatScope) {
         self.scope = scope
     }
-    
+
     var body: some View {
         VStack{
             scope.chatListView()

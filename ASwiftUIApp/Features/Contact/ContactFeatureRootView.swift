@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ContactFeatureRootView: View {
     let scope: ContactScope
-    
+
     init(scope: ContactScope) {
         self.scope = scope
     }
-    
+
     var body: some View {
         Group {
             switch scope.dataModel.displayMode {

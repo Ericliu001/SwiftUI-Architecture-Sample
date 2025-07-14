@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContactTable: View {
     let scope: ContactScope
-    
+
 #if os(iOS)
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     private var isCompact: Bool { horizontalSizeClass == .compact }
@@ -17,7 +17,7 @@ struct ContactTable: View {
     private let isCompact = false
 #endif
     @State private var isTargeted = false
-    
+
     var body: some View {
         Table(of: Contact.self) {
             TableColumn("Photo") { contact in
@@ -76,7 +76,7 @@ struct ContactTable: View {
 struct CompactContactView: View {
     let router: ContactRouter
     let contact: Contact
-    
+
     var body: some View {
         Button(action: {
             router.gotoContactDetail(contact)
@@ -90,7 +90,7 @@ struct CompactContactView: View {
                         .foregroundStyle(.secondary)
                     Text(contact.email ?? "")
                         .foregroundStyle(.secondary)
-                
+
                     Button(action: {
                         router.gotoConversation(recipient: contact)
                     }) {
