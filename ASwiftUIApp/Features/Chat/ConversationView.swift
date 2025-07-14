@@ -11,6 +11,7 @@ import SwiftUI
 struct ConversationView: View {
     private let scope: ChatScope
     private let contact: Contact
+    @State private var messageText: String = ""
     
     init(scope: ChatScope, contact: Contact) {
         self.scope = scope
@@ -40,7 +41,7 @@ struct ConversationView: View {
             
             List {
                 ForEach(
-                    Array(Message.sampleData.enumerated()),
+                    Array(scope.messages.enumerated()),
                     id: \.element
                 ) {
                     index,
@@ -54,6 +55,27 @@ struct ConversationView: View {
             }
             .listStyle(PlainListStyle()) // Remove the default list style
             .background(Color.clear)
+            
+            HStack {
+                TextField("Type a message...", text: $messageText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                Button(action: {
+                    guard !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                    
+                    let newMessage = Message(
+                        senderId: "1",
+                        text: messageText
+                    )
+                    scope.messages.append(newMessage)
+                    messageText = ""
+                }) {
+                    Image(systemName: "paperplane.fill")
+                        .foregroundColor(.blue)
+                }
+                .disabled(messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+            .padding()
         }
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
