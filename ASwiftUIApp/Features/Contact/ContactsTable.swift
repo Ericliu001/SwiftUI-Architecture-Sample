@@ -16,7 +16,6 @@ struct ContactTable: View {
 #else
     private let isCompact = false
 #endif
-    @Environment(DataModel.self) private var dataModel
     @State private var isTargeted = false
     
     var body: some View {
@@ -48,20 +47,15 @@ struct ContactTable: View {
                 }
                 .buttonStyle(.plain)
             }
-            //            TableColumn("Video title") { contact in
-            //                if let videoTitle = contact.videoURL?.lastPathComponent {
-            //                    Text(videoTitle)
-            //                }
-            //            }
         } rows: {
-            ForEach(dataModel.contacts) { contact in
+            ForEach(scope.dataModel.contacts) { contact in
                 TableRow(contact)
                     .draggable(contact)
             }
             .dropDestination(for: Contact.self) {
                 index,
                 droppedContacts in
-                dataModel
+                scope.dataModel
                     .handleDroppedContacts(
                         droppedContacts: droppedContacts,
                         index: index
@@ -71,7 +65,7 @@ struct ContactTable: View {
         .frame(alignment: .center)
         .background(isTargeted ? Color.blue.opacity(0.2) : Color.clear)
         .dropDestination(for: Contact.self) { droppedContacts, location in
-            dataModel.handleDroppedContacts(droppedContacts: droppedContacts)
+            scope.dataModel.handleDroppedContacts(droppedContacts: droppedContacts)
             return true
         } isTargeted: { isTargeted in
             self.isTargeted = isTargeted
@@ -133,5 +127,4 @@ struct VideoLabelView: View {
 
 #Preview {
     ContactTable(scope: ContactScope.mock)
-        .environment(DataModel())
 }

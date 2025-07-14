@@ -22,6 +22,7 @@ struct ContactDetailView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HeaderView(
+                        dataModel: scope.dataModel,
                         contact: contact,
                         height: geometry.size.height,
                         width: geometry.size.width

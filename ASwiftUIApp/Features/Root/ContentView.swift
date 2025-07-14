@@ -51,6 +51,5 @@ struct ContentView: View {
 
 #Preview() {
     ContentView(scope: RootScope.mock)
-        .environment(DataModel())
 }
 

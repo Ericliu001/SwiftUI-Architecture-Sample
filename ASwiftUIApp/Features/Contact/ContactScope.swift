@@ -17,6 +17,7 @@ final class ContactScope {
     }
     
     lazy var router: ContactRouter = parent.contactRouter
+    lazy var dataModel = parent.dataModel
     
     
     
@@ -33,6 +34,8 @@ final class ContactScope {
 extension ContactScope {
     protocol Parent {
         var contactRouter: ContactRouter { get }
+        
+        var dataModel: DataModel { get }
     }
 }
 
@@ -42,6 +45,8 @@ extension ContactScope {
 
 extension ContactScope {
     class MockParent: ContactScope.Parent {
+        var dataModel: DataModel = DataModel()
+        
         var contactRouter: ContactRouter = MockContactRouter.shared
     }
     

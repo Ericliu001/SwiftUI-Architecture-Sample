@@ -9,10 +9,10 @@ import AVKit
 import PhotosUI
 
 struct HeaderView: View {
-    @Environment(DataModel.self) private var dataModel
     @State private var photosPickerPresented = false
     @State private var selection: PhotosPickerItem?
     @State private var isTargeted = false
+    let dataModel: DataModel
     var contact: Contact
     var height: CGFloat
     var width: CGFloat
@@ -83,6 +83,6 @@ struct VideoView: View {
 }
 
 #Preview {
-    HeaderView(contact: .mock[4], height: 500, width: 500)
+    HeaderView(dataModel: DataModel(), contact: .mock[4], height: 500, width: 500)
         .environment(DataModel())
 }

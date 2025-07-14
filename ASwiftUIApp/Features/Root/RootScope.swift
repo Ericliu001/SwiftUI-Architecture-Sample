@@ -14,6 +14,7 @@ final class RootScope: ContactScope.Parent, ChatScope.Parent {
     
     lazy var contactRouter: ContactRouter = rootRouter
     lazy var chatRouter: ChatRouter = rootRouter
+    lazy var dataModel = DataModel()
     
     lazy var contactScope: ContactScope = .init(parent: self)
     lazy var chatScope: ChatScope = .init(parent: self)

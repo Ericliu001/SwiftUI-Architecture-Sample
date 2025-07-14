@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct ContactFeatureRootView: View {
-    @Environment(DataModel.self) private var dataModel
-    
     let scope: ContactScope
     
     init(scope: ContactScope) {
@@ -19,18 +17,17 @@ struct ContactFeatureRootView: View {
     
     var body: some View {
         Group {
-            switch dataModel.displayMode {
+            switch scope.dataModel.displayMode {
             case .table:
                 scope.contactTableView()
             case .list:
                 scope.contactListView()
             }
         }
-        .environment(dataModel)
         .navigationTitle("Contacts")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                @Bindable var dataModel = dataModel
+                @Bindable var dataModel = scope.dataModel
                 DisplayModePicker(mode: $dataModel.displayMode)
             }
         }
@@ -39,5 +36,4 @@ struct ContactFeatureRootView: View {
 
 #Preview {
     ContactFeatureRootView(scope:  ContactScope.mock)
-        .environment(DataModel())
 }

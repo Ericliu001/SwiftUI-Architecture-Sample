@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ChatFeatureRootView: View {
-    @Environment(DataModel.self) private var dataModel
     let scope: ChatScope
     
     init(scope: ChatScope) {
@@ -40,5 +39,4 @@ struct ChatFeatureRootView: View {
 
 #Preview {
     ChatFeatureRootView(scope: ChatScope.mock)
-        .environment(DataModel())
 }
