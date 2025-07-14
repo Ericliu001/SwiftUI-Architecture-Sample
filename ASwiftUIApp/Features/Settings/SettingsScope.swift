@@ -10,14 +10,20 @@ import Foundation
 import SwiftUI
 
 final class SettingsScope {
+    // Parent Reference
+    // Connection to parent scope through protocol-defined interface
     private let parent: Parent
 
     init(parent: Parent) {
         self.parent = parent
     }
 
+    // Dependencies from Parent
+    // Accessing parent-provided resources through lazy properties
     lazy var router: SettingsRouter = parent.settingsRouter
 
+    // View Factory Methods
+    // Creating views with proper dependency injection
     func settingsHomeView() -> some View {
         SettingsHomeView(scope: self)
     }

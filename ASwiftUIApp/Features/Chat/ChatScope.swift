@@ -10,18 +10,28 @@ import Foundation
 import SwiftUI
 
 final class ChatScope {
+    // Parent Reference
+    // Connection to parent scope through protocol-defined interface
     private let parent: Parent
 
     init(parent: Parent) {
         self.parent = parent
     }
 
-    lazy var chatListItemScope: ChatListItemScope = .init()
-    
+    // Dependencies from Parent
+    // Accessing parent-provided resources through lazy properties
     lazy var router: ChatRouter = parent.chatRouter
+    
+    // Local Dependencies
+    // Scope-specific state and resources that belong to the chat feature
     lazy var messages: [Message] = Message.sampleData
 
+    // Child Scopes
+    // Managing child feature domains within the chat scope
+    lazy var chatListItemScope: ChatListItemScope = .init()
 
+    // View Factory Methods
+    // Creating views with proper dependency injection
     func chatFeatureRootview() -> some View {
         ChatFeatureRootView(scope: self)
     }

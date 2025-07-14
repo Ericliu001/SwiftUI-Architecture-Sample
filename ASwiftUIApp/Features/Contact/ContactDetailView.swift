@@ -27,7 +27,7 @@ struct ContactDetailView: View {
                         height: geometry.size.height,
                         width: geometry.size.width
                     )
-                    ContactInfoView(scope: scope, contact: contact)
+                    scope.contactInfoView(contact: contact)
                 }
             }
         }
