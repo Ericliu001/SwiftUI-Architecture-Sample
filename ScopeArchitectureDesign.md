@@ -18,6 +18,7 @@ Scopes are organized in a tree hierarchy where:
 RootScope
 ├── ContactScope
 ├── ChatScope
+│   └── ChatListItemScope
 └── SettingsScope
 ```
 
@@ -29,7 +30,7 @@ RootScope
 
 Each scope in the tree serves as a dependency container for a specific domain or feature. Let's examine the ChatScope as a comprehensive example that demonstrates all the key parts of a scope:
 
-**ChatScope** (`ASwiftUIApp/Features/Chat/ChatScope.swift:1`):
+**ChatScope**:
 ```swift
 final class ChatScope {
     // 1. Parent Reference - Connection to parent scope
@@ -40,22 +41,26 @@ final class ChatScope {
     }
     
     // 2. Dependencies from Parent - Accessing parent-provided resources
-    var chatRouter: ChatRouter { parent.chatRouter }
+    lazy var router: ChatRouter = parent.chatRouter
     
     // 3. Local Dependencies - Scope-specific resources
-    lazy var messages: [Message] = []
+    lazy var messages: [Message] = Message.sampleData
     
-    // 4. View Factory Methods - Creating views with proper dependency injection
-    func conversationView(contact: Contact) -> some View {
-        ConversationView(scope: self, contact: contact)
+    // 4. Child Scopes - Managing child feature domains
+    lazy var chatListItemScope: ChatListItemScope = .init()
+    
+    // 5. View Factory Methods - Creating views with proper dependency injection
+    func chatFeatureRootview() -> some View {
+        ChatFeatureRootView(scope: self)
     }
     
     func chatListView() -> some View {
         ChatListView(scope: self)
     }
     
-    // 5. Child Scopes - None in this example
-    // (ChatScope doesn't manage child scopes)
+    func conversationView(contact: Contact) -> some View {
+        ConversationView(scope: self, contact: contact)
+    }
 }
 ```
 
@@ -67,9 +72,9 @@ final class ChatScope {
 
 3. **Local Dependencies**: Scope-specific state and resources that belong to this particular feature domain
 
-4. **View Factory Methods**: Functions that create views with the scope properly injected, ensuring consistent dependency provision
+4. **Child Scopes**: References to child scopes that this scope manages, demonstrating the hierarchical nature of the scope tree
 
-5. **Child Scopes**: References to child scopes that this scope manages (when applicable)
+5. **View Factory Methods**: Functions that create views with the scope properly injected, ensuring consistent dependency provision
 
 **RootScope Example** (`ASwiftUIApp/Features/Root/RootScope.swift:1`) - showing child scopes:
 ```swift
