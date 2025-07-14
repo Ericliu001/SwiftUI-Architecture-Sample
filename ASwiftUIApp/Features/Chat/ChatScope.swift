@@ -33,6 +33,10 @@ final class ChatScope {
     func chatListItemView(chat: Chat) -> some View {
         ChatListItemView(chat: chat)
     }
+    
+    func conversationView(contact: Contact) -> some View {
+        ConversationView(scope: self, contact: contact)
+    }
 }
 
 extension ChatScope {

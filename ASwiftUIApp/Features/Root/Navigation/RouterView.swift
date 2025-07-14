@@ -20,19 +20,19 @@ struct RouterView: View {
     var body: some View {
         switch destination {
         case .conversation(let recipient):
-            ConversationView(scope: scope.chatScope, contact: recipient)
+            scope.chatScope.conversationView(contact: recipient)
                 .toolbar(.hidden, for: .tabBar)
         case .contactDetail(let contact):
-            ContactDetailView(scope: scope.contactScope, contact: contact)
+            scope.contactScope.contactDetailView(contact: contact)
                 .toolbar(.hidden, for: .tabBar)
         case .contactList:
-            ContactFeatureRootView(scope: scope.contactScope)
+            scope.contactScope.contactFeatureRootView()
                 .toolbar(.hidden, for: .tabBar)
         case .profile_settings:
-            ProfileSettingsView(scope: scope.settingsScope)
+            scope.settingsScope.profileSettingsView()
                 .toolbar(.hidden, for: .tabBar)
         case .privacy_settings:
-            PrivacySettingsView(scope: scope.settingsScope)
+            scope.settingsScope.privacySettingsView()
                 .toolbar(.hidden, for: .tabBar)
         }
     }

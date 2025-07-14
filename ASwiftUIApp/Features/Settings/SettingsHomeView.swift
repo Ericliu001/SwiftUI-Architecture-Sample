@@ -11,6 +11,9 @@ import SwiftUI
 struct SettingsHomeView: View {
     let scope: SettingsScope
     
+    @State private var notificationsEnabled = true
+    @State private var darkModeEnabled = false
+    
     init(scope: SettingsScope) {
         self.scope = scope
     }
@@ -27,8 +30,8 @@ struct SettingsHomeView: View {
             }
 
             Section(header: Text("App Settings")) {
-                Toggle("Enable Notifications", isOn: .constant(true))
-                Toggle("Dark Mode", isOn: .constant(false))
+                Toggle("Enable Notifications", isOn: $notificationsEnabled)
+                Toggle("Dark Mode", isOn: $darkModeEnabled)
             }
             
             Section {

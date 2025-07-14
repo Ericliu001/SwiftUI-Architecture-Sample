@@ -28,6 +28,14 @@ final class ContactScope {
     func contactListView() -> some View {
         ContactList(scope: self)
     }
+    
+    func contactDetailView(contact: Contact) -> some View {
+        ContactDetailView(scope: self, contact: contact)
+    }
+    
+    func contactFeatureRootView() -> some View {
+        ContactFeatureRootView(scope: self)
+    }
 }
 
 
