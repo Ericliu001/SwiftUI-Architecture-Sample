@@ -9,11 +9,11 @@
 import SwiftUI
 
 struct ConversationView: View {
-    private let router: ChatRouter
+    private let scope: ChatScope
     private let contact: Contact
     
-    init(router: ChatRouter, contact: Contact) {
-        self.router = router
+    init(scope: ChatScope, contact: Contact) {
+        self.scope = scope
         self.contact = contact
     }
     
@@ -21,7 +21,7 @@ struct ConversationView: View {
         VStack {
             HStack {
                 Button(action: {
-                    router.gotoContactDetail(contact)
+                    scope.router.gotoContactDetail(contact)
                 }){
                     Group {
                         ThumbnailView(contact: contact)
@@ -62,5 +62,5 @@ struct ConversationView: View {
 }
 
 #Preview {
-    ConversationView(router: MockChatRouter.shared,contact: Contact.mock[0])
+    ConversationView(scope: ChatScope.mock, contact: Contact.mock[0])
 }

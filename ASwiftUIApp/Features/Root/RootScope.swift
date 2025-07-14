@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class RootScope: ContactScope.Parent, ChatScope.Parent {
     let rootRouter = Router()
@@ -16,4 +17,16 @@ final class RootScope: ContactScope.Parent, ChatScope.Parent {
     
     lazy var contactScope: ContactScope = .init(parent: self)
     lazy var chatScope: ChatScope = .init(parent: self)
+    
+    func routerView(dest: Destination) -> some View {
+        RouterView(scope: self, destination: dest)
+    }
 }
+
+
+#if DEBUG
+extension RootScope {
+    static var mock: RootScope = RootScope()
+}
+
+#endif

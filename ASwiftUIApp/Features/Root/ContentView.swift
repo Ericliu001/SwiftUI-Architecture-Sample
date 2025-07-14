@@ -23,10 +23,10 @@ struct ContentView: View {
                 value: Tabs.chats
             ) {
                 NavigationStack(path: $router.chatTabPath) {
-                    ChatFeatureRootView(scope: scope.chatScope)
+                    scope.chatScope.chatFeatureRootview()
                         .navigationDestination(for: Destination.self) {
                             dest in
-                            RouterView(scope: scope, destination: dest)
+                            scope.routerView(dest: dest)
                         }
                 }
             }
@@ -40,7 +40,7 @@ struct ContentView: View {
                     SettingsHomeView(router: router)
                         .navigationDestination(for: Destination.self) {
                             dest in
-                            RouterView(scope: scope, destination: dest)
+                            scope.routerView(dest: dest)
                         }
                 }
             }
@@ -50,7 +50,7 @@ struct ContentView: View {
 }
 
 #Preview() {
-    ContentView(scope: RootScope())
+    ContentView(scope: RootScope.mock)
         .environment(DataModel())
 }
 

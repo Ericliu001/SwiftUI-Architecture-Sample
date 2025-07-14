@@ -18,7 +18,7 @@ struct ChatFeatureRootView: View {
     
     var body: some View {
         VStack{
-            ChatsView(router: scope.router)
+            scope.chatListView()
         }
         .navigationTitle("Chats")
         .toolbar {

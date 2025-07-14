@@ -14,7 +14,7 @@ struct ContactDetailView: View {
         case list
     }
     
-    let router: ContactRouter
+    let scope: ContactScope
     var contact: Contact
     
     var body: some View {
@@ -26,7 +26,7 @@ struct ContactDetailView: View {
                         height: geometry.size.height,
                         width: geometry.size.width
                     )
-                    ContactInfoView(router: router, contact: contact)
+                    ContactInfoView(scope: scope, contact: contact)
                 }
             }
         }
@@ -34,5 +34,5 @@ struct ContactDetailView: View {
 }
 
 #Preview {
-    ContactDetailView(router: MockContactRouter.shared, contact: .mock.first!)
+    ContactDetailView(scope: ContactScope.mock, contact: .mock.first!)
 }

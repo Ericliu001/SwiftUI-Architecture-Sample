@@ -24,7 +24,13 @@ final class ChatScope {
         ChatFeatureRootView(scope: self)
     }
     
+    func chatListView() -> some View {
+        ChatListView(scope: self)
+    }
     
+    func chatListItemView(chat: Chat) -> some View {
+        ChatListItemView(chat: chat)
+    }
 }
 
 extension ChatScope {

@@ -8,20 +8,20 @@
 
 import SwiftUI
 
-struct ChatsView: View {
+struct ChatListView: View {
     @State private var chats = Chat.mock
     
-    let router: ChatRouter
+    let scope: ChatScope
     
     var body: some View {
         VStack(alignment: .leading){
             List {
                 ForEach(chats) { chat in
                     Button(action: {
-                        router.gotoConversation(recipient: chat.recipient)
+                        scope.router.gotoConversation(recipient: chat.recipient)
                     })
                     {
-                        ChatListItemView(chat: chat)
+                        scope.chatListItemView(chat: chat)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .contentShape(Rectangle())
                     }
@@ -33,7 +33,7 @@ struct ChatsView: View {
 }
 
 #Preview {
-    ChatsView(router: MockChatRouter.shared)
+    ChatListView(scope: ChatScope.mock)
 }
 
 
