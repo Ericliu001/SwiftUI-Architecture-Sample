@@ -12,15 +12,16 @@ import UniformTypeIdentifiers
 struct ContactList: View {
     @Environment(DataModel.self) private var dataModel
     @State private var isTargeted = false
-    let router: ContactRouter
+    
+    let scope: ContactScope
     
     var body: some View {
         List {
             ForEach(dataModel.contacts) { contact in
                 Button (action: {
-                    router.gotoContactDetail(contact)
+                    scope.router.gotoContactDetail(contact)
                 }) {
-                    CompactContactView(router: router, contact: contact)
+                    CompactContactView(router: scope.router, contact: contact)
                         .draggable(contact) {
                             ThumbnailView(contact: contact)
                         }
@@ -57,6 +58,6 @@ struct ContactList: View {
 }
 
 #Preview {
-    ContactList(router: MockContactRouter.shared)
+    ContactList(scope: ContactScope.mock)
         .environment(DataModel())
 }

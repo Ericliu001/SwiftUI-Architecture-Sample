@@ -25,7 +25,7 @@ final class ContactScope {
     }
     
     func contactListView() -> some View {
-        Text("ContactListView")
+        ContactList(scope: self)
     }
 }
 

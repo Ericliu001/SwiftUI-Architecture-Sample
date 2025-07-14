@@ -7,7 +7,28 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class ChatScope {
+    private let parent: Parent
     
+    init(parent: Parent) {
+        self.parent = parent
+    }
+    
+    
+    lazy var router: ChatRouter = parent.chatRouter
+    
+    
+    func chatFeatureRootview() -> some View {
+        ChatFeatureRootView(router: router)
+    }
+    
+    
+}
+
+extension ChatScope {
+    protocol Parent {
+        var chatRouter: ChatRouter { get }
+    }
 }
