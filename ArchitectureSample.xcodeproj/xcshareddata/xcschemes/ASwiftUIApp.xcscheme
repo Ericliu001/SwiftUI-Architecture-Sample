@@ -18,7 +18,7 @@
                BlueprintIdentifier = "46673C0B2C2BE5E500AB154C"
                BuildableName = "ASwiftUIApp.app"
                BlueprintName = "ASwiftUIApp"
-               ReferencedContainer = "container:SwiftUINavigationSample.xcodeproj">
+               ReferencedContainer = "container:ArchitectureSample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,7 +47,7 @@
             BlueprintIdentifier = "46673C0B2C2BE5E500AB154C"
             BuildableName = "ASwiftUIApp.app"
             BlueprintName = "ASwiftUIApp"
-            ReferencedContainer = "container:SwiftUINavigationSample.xcodeproj">
+            ReferencedContainer = "container:ArchitectureSample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -64,7 +64,7 @@
             BlueprintIdentifier = "46673C0B2C2BE5E500AB154C"
             BuildableName = "ASwiftUIApp.app"
             BlueprintName = "ASwiftUIApp"
-            ReferencedContainer = "container:SwiftUINavigationSample.xcodeproj">
+            ReferencedContainer = "container:ArchitectureSample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
