@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 final class RootScope: ContactScope.Parent, ChatScope.Parent, SettingsScope.Parent {
-    let rootRouter = Router()
+    lazy var rootRouter = Router()
     
     lazy var contactRouter: ContactRouter = rootRouter
     lazy var chatRouter: ChatRouter = rootRouter
