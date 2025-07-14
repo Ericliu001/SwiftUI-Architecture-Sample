@@ -9,6 +9,12 @@
 import SwiftUI
 
 struct ProfileSettingsView: View {
+    let scope: SettingsScope
+    
+    init(scope: SettingsScope) {
+        self.scope = scope
+    }
+    
     var body: some View {
         Form {
             Section(header: Text("User")) {
@@ -53,5 +59,5 @@ struct ProfileSettingsView: View {
 }
 
 #Preview {
-    ProfileSettingsView()
+    ProfileSettingsView(scope: SettingsScope.mock)
 }

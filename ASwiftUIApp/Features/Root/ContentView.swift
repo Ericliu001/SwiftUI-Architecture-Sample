@@ -37,7 +37,7 @@ struct ContentView: View {
                 value: Tabs.settings
             ) {
                 NavigationStack(path: $router.settingsTabPath) {
-                    SettingsHomeView(router: router)
+                    scope.settingsScope.settingsHomeView()
                         .navigationDestination(for: Destination.self) {
                             dest in
                             scope.routerView(dest: dest)

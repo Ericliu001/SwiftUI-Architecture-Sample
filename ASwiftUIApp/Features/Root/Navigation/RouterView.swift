@@ -29,10 +29,10 @@ struct RouterView: View {
             ContactFeatureRootView(scope: scope.contactScope)
                 .toolbar(.hidden, for: .tabBar)
         case .profile_settings:
-            ProfileSettingsView()
+            ProfileSettingsView(scope: scope.settingsScope)
                 .toolbar(.hidden, for: .tabBar)
         case .privacy_settings:
-            PrivacySettingsView()
+            PrivacySettingsView(scope: scope.settingsScope)
                 .toolbar(.hidden, for: .tabBar)
         }
     }

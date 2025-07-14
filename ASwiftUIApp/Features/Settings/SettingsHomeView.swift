@@ -9,16 +9,20 @@
 import SwiftUI
 
 struct SettingsHomeView: View {
-    let router: SettingsRouter
+    let scope: SettingsScope
+    
+    init(scope: SettingsScope) {
+        self.scope = scope
+    }
     
     var body: some View {
         Form {
             Section(header: Text("Account")) {
                 Button("Profile") {
-                    router.goToProfile()
+                    scope.router.goToProfile()
                 }
                 Button("Privacy") {
-                    router.gotoPrivacy()
+                    scope.router.gotoPrivacy()
                 }
             }
 
@@ -29,7 +33,7 @@ struct SettingsHomeView: View {
             
             Section {
                 Button("Back to Chats") {
-                    router.gotoChats()
+                    scope.router.gotoChats()
                 }
             }
 
@@ -47,5 +51,5 @@ struct SettingsHomeView: View {
 }
 
 #Preview {
-    SettingsHomeView(router: MockSettingsRouter.shared)
+    SettingsHomeView(scope: SettingsScope.mock)
 }
