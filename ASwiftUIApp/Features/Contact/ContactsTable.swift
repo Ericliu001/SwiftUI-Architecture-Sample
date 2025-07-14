@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContactTable: View {
-    let router: ContactRouter
+    let scope: ContactScope
     
 #if os(iOS)
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -23,7 +23,7 @@ struct ContactTable: View {
         Table(of: Contact.self) {
             TableColumn("Photo") { contact in
                 if isCompact {
-                    CompactContactView(router: router, contact: contact)
+                    CompactContactView(router: scope.router, contact: contact)
                 } else {
                     ThumbnailView(contact: contact)
                 }
@@ -39,7 +39,7 @@ struct ContactTable: View {
             }
             TableColumn("Message"){ contact in
                 Button {
-                    router.gotoConversation(recipient: contact)
+                    scope.router.gotoConversation(recipient: contact)
                 }  label: {
                     Image(systemName: "message.fill")
                         .font(.title)
@@ -132,6 +132,6 @@ struct VideoLabelView: View {
 }
 
 #Preview {
-    ContactTable(router: MockContactRouter.shared)
+    ContactTable(scope: ContactScope.mock)
         .environment(DataModel())
 }

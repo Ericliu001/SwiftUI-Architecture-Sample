@@ -10,15 +10,20 @@ import SwiftUI
 
 struct ContactFeatureRootView: View {
     @Environment(DataModel.self) private var dataModel
-    let router: ContactRouter
+    
+    let scope: ContactScope
+    
+    init(scope: ContactScope) {
+        self.scope = scope
+    }
     
     var body: some View {
         Group {
             switch dataModel.displayMode {
             case .table:
-                ContactTable(router: router)
+                scope.contactTableView()
             case .list:
-                ContactList(router: router)
+                scope.contactListView()
             }
         }
         .environment(dataModel)
@@ -33,6 +38,6 @@ struct ContactFeatureRootView: View {
 }
 
 #Preview {
-    ContactFeatureRootView(router:  MockContactRouter.shared)
+    ContactFeatureRootView(scope:  ContactScope.mock)
         .environment(DataModel())
 }

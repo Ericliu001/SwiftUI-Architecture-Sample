@@ -11,14 +11,12 @@ import SwiftUI
 struct ASwiftUIApp: App {
     @State private var dataModel = DataModel()
     
-    // In prduction, Router instance should be provided by dependency injection.
-    @State private var router = Router()
+    let rootScope = RootScope()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(scope: rootScope)
                 .environment(dataModel)
-                .environment(router)
             // Set minimum window size.
             #if os(macOS) || os(visionOS)
                 .frame(minWidth: Constants.contentWindowWidth, maxWidth: .infinity, minHeight: Constants.contentWindowHeight, maxHeight: .infinity)

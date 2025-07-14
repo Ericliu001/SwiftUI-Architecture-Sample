@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    // In prduction, the Router instance should be provided by dependency injection.
-    @Environment(Router.self) var router
+    private let scope: RootScope
+    
+    init(scope: RootScope) {
+        self.scope = scope
+    }
     
     var body: some View {
-        @Bindable var router = router
+        @Bindable var router = scope.rootRouter
         TabView(selection: $router.selectedTab) {
             Tab(
                 Tabs.chats.name,
@@ -20,10 +23,10 @@ struct ContentView: View {
                 value: Tabs.chats
             ) {
                 NavigationStack(path: $router.chatTabPath) {
-                    ChatFeatureRootView(router: router)
+                    ChatFeatureRootView(router: scope.chatRouter)
                         .navigationDestination(for: Destination.self) {
                             dest in
-                            RouterView(router: router, destination: dest)
+                            RouterView(scope: scope, destination: dest)
                         }
                 }
             }
@@ -37,7 +40,7 @@ struct ContentView: View {
                     SettingsHomeView(router: router)
                         .navigationDestination(for: Destination.self) {
                             dest in
-                            RouterView(router: router, destination: dest)
+                            RouterView(scope: scope, destination: dest)
                         }
                 }
             }
@@ -47,8 +50,7 @@ struct ContentView: View {
 }
 
 #Preview() {
-    ContentView()
+    ContentView(scope: RootScope())
         .environment(DataModel())
-        .environment(Router())
 }
 

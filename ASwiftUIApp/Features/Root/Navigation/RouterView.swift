@@ -9,19 +9,24 @@
 import SwiftUI
 
 struct RouterView: View {
-    let router: Router
-    let destination: Destination
+    private let scope: RootScope
+    private let destination: Destination
+    
+    init(scope: RootScope, destination: Destination) {
+        self.scope = scope
+        self.destination = destination
+    }
     
     var body: some View {
         switch destination {
         case .conversation(let recipient):
-            ConversationView(router: router, contact: recipient)
+            ConversationView(router: scope.chatRouter, contact: recipient)
                 .toolbar(.hidden, for: .tabBar)
         case .contactDetail(let contact):
-            ContactDetailView(router: router, contact: contact)
+            ContactDetailView(router: scope.contactRouter, contact: contact)
                 .toolbar(.hidden, for: .tabBar)
         case .contactList:
-            ContactFeatureRootView(router: router)
+            ContactFeatureRootView(scope: scope.contactScope)
                 .toolbar(.hidden, for: .tabBar)
         case .profile_settings:
             ProfileSettingsView()
@@ -34,5 +39,5 @@ struct RouterView: View {
 }
 
 #Preview {
-    RouterView(router: Router() ,destination: .contactList)
+    RouterView(scope: RootScope() ,destination: .contactList)
 }
