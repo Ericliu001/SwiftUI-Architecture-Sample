@@ -19,6 +19,8 @@ final class ChatScope {
     
     lazy var router: ChatRouter = parent.chatRouter
     
+    lazy var messages: [Message] = Message.sampleData
+    
     
     func chatFeatureRootview() -> some View {
         ChatFeatureRootView(scope: self)
