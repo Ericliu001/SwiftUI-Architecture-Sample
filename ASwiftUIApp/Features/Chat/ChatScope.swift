@@ -21,7 +21,7 @@ final class ChatScope {
     
     
     func chatFeatureRootview() -> some View {
-        ChatFeatureRootView(router: router)
+        ChatFeatureRootView(scope: self)
     }
     
     
@@ -32,3 +32,15 @@ extension ChatScope {
         var chatRouter: ChatRouter { get }
     }
 }
+
+
+#if DEBUG
+extension ChatScope {
+    private class MockParent: Parent {
+        var chatRouter: ChatRouter = MockChatRouter.shared
+    }
+    
+    static let mock = ChatScope(parent: MockParent())
+}
+
+#endif
