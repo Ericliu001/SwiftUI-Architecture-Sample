@@ -16,6 +16,8 @@ final class ChatScope {
         self.parent = parent
     }
 
+    lazy var chatListItemScope: ChatListItemScope = .init()
+    
     lazy var router: ChatRouter = parent.chatRouter
     lazy var messages: [Message] = Message.sampleData
 
@@ -26,10 +28,6 @@ final class ChatScope {
 
     func chatListView() -> some View {
         ChatListView(scope: self)
-    }
-
-    func chatListItemView(chat: Chat) -> some View {
-        ChatListItemView(chat: chat)
     }
 
     func conversationView(contact: Contact) -> some View {
