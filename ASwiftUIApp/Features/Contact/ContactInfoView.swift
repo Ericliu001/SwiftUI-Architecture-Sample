@@ -8,9 +8,9 @@ A view that displays the contact information — full name, initials, email, and
 import SwiftUI
 
 struct ContactInfoView: View {
-    let router: ContactRouter
+    let scope: ContactScope
     var contact: Contact
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -24,11 +24,11 @@ struct ContactInfoView: View {
                 LabeledContent("Phone number") {
                     HStack {
                         Text(contact.phoneNumber)
-                        
+
                         Spacer()
-                        
+
                         Button(action: {
-                            router.gotoConversation(recipient: contact)
+                            scope.router.gotoConversation(recipient: contact)
                         }) {
                             Image(systemName: "message.fill")
                                 .font(.title)
@@ -85,5 +85,5 @@ struct ContactDetailLabelStyle: LabeledContentStyle {
 }
 
 #Preview {
-    ContactInfoView(router: MockContactRouter.shared, contact: .mock[0])
+    ContactInfoView(scope: ContactScope.mock, contact: .mock[0])
 }

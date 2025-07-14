@@ -10,17 +10,17 @@ import Contacts
 import UniformTypeIdentifiers
 
 struct ContactList: View {
-    @Environment(DataModel.self) private var dataModel
     @State private var isTargeted = false
-    let router: ContactRouter
-    
+
+    let scope: ContactScope
+
     var body: some View {
         List {
-            ForEach(dataModel.contacts) { contact in
+            ForEach(scope.dataModel.contacts) { contact in
                 Button (action: {
-                    router.gotoContactDetail(contact)
+                    scope.router.gotoContactDetail(contact)
                 }) {
-                    CompactContactView(router: router, contact: contact)
+                    CompactContactView(router: scope.router, contact: contact)
                         .draggable(contact) {
                             ThumbnailView(contact: contact)
                         }
@@ -33,18 +33,18 @@ struct ContactList: View {
             .dropDestination(for: Contact.self) {
                 droppedContacts,
                 index in
-                dataModel
+                scope.dataModel
                     .handleDroppedContacts(
                         droppedContacts: droppedContacts,
                         index: index
                     )
             }
             .onMove { fromOffsets, toOffset in
-                dataModel.contacts
+                scope.dataModel.contacts
                     .move(fromOffsets: fromOffsets, toOffset: toOffset)
             }
             .onDelete { indexSet in
-                dataModel.contacts.remove(atOffsets: indexSet)
+                scope.dataModel.contacts.remove(atOffsets: indexSet)
             }
         }
 #if !os(macOS)
@@ -57,6 +57,5 @@ struct ContactList: View {
 }
 
 #Preview {
-    ContactList(router: MockContactRouter.shared)
-        .environment(DataModel())
+    ContactList(scope: ContactScope.mock)
 }

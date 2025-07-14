@@ -9,23 +9,25 @@
 import SwiftUI
 
 struct ContactFeatureRootView: View {
-    @Environment(DataModel.self) private var dataModel
-    let router: ContactRouter
-    
+    let scope: ContactScope
+
+    init(scope: ContactScope) {
+        self.scope = scope
+    }
+
     var body: some View {
         Group {
-            switch dataModel.displayMode {
+            switch scope.dataModel.displayMode {
             case .table:
-                ContactTable(router: router)
+                scope.contactTableView()
             case .list:
-                ContactList(router: router)
+                scope.contactListView()
             }
         }
-        .environment(dataModel)
         .navigationTitle("Contacts")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                @Bindable var dataModel = dataModel
+                @Bindable var dataModel = scope.dataModel
                 DisplayModePicker(mode: $dataModel.displayMode)
             }
         }
@@ -33,6 +35,5 @@ struct ContactFeatureRootView: View {
 }
 
 #Preview {
-    ContactFeatureRootView(router:  MockContactRouter.shared)
-        .environment(DataModel())
+    ContactFeatureRootView(scope:  ContactScope.mock)
 }

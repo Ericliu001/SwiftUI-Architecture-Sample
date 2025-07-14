@@ -9,19 +9,22 @@
 import SwiftUI
 
 struct ChatFeatureRootView: View {
-    @Environment(DataModel.self) private var dataModel
-    let router: ChatRouter
-    
+    let scope: ChatScope
+
+    init(scope: ChatScope) {
+        self.scope = scope
+    }
+
     var body: some View {
         VStack{
-            ChatsView(router: router)
+            scope.chatListView()
         }
         .navigationTitle("Chats")
         .toolbar {
             ToolbarItem(placement: .automatic) {
                 Button(
                     action: {
-                        router.gotoContactList()
+                        scope.router.gotoContactList()
                     }
                 ) {
                     Image(systemName: "plus.circle.fill")
@@ -35,6 +38,5 @@ struct ChatFeatureRootView: View {
 }
 
 #Preview {
-    ChatFeatureRootView(router: Router())
-        .environment(DataModel())
+    ChatFeatureRootView(scope: ChatScope.mock)
 }

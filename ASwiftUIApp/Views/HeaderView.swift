@@ -9,14 +9,14 @@ import AVKit
 import PhotosUI
 
 struct HeaderView: View {
-    @Environment(DataModel.self) private var dataModel
     @State private var photosPickerPresented = false
     @State private var selection: PhotosPickerItem?
     @State private var isTargeted = false
+    let dataModel: DataModel
     var contact: Contact
     var height: CGFloat
     var width: CGFloat
-    
+
     var body: some View {
         VStack {
             if let videoUrl = contact.videoURL {
@@ -73,7 +73,7 @@ struct HeaderView: View {
 struct VideoView: View {
     var videoUrl: URL
     @State private var player: AVPlayer?
-    
+
     var body: some View {
         VideoPlayer(player: player)
         .task {
@@ -83,6 +83,6 @@ struct VideoView: View {
 }
 
 #Preview {
-    HeaderView(contact: .mock[4], height: 500, width: 500)
+    HeaderView(dataModel: DataModel(), contact: .mock[4], height: 500, width: 500)
         .environment(DataModel())
 }

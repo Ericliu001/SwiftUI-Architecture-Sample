@@ -9,24 +9,25 @@
 import SwiftUI
 
 struct ConversationView: View {
-    private let router: ChatRouter
+    private let scope: ChatScope
     private let contact: Contact
-    
-    init(router: ChatRouter, contact: Contact) {
-        self.router = router
+    @State private var messageText: String = ""
+
+    init(scope: ChatScope, contact: Contact) {
+        self.scope = scope
         self.contact = contact
     }
-    
+
     var body: some View {
         VStack {
             HStack {
                 Button(action: {
-                    router.gotoContactDetail(contact)
+                    scope.router.gotoContactDetail(contact)
                 }){
                     Group {
                         ThumbnailView(contact: contact)
                             .frame(width: 60, height: 60)
-                        
+
                         Text("\(contact.fullName)")
                     }
                 }
@@ -35,12 +36,12 @@ struct ConversationView: View {
             .padding()
             .frame(maxWidth: .infinity)
             .background(Color.gray.opacity(0.1))
-            
+
             Spacer()
-            
+
             List {
                 ForEach(
-                    Array(Message.sampleData.enumerated()),
+                    Array(scope.messages.enumerated()),
                     id: \.element
                 ) {
                     index,
@@ -54,6 +55,27 @@ struct ConversationView: View {
             }
             .listStyle(PlainListStyle()) // Remove the default list style
             .background(Color.clear)
+
+            HStack {
+                TextField("Type a message...", text: $messageText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                Button(action: {
+                    guard !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+
+                    let newMessage = Message(
+                        senderId: "1",
+                        text: messageText
+                    )
+                    scope.messages.append(newMessage)
+                    messageText = ""
+                }) {
+                    Image(systemName: "paperplane.fill")
+                        .foregroundColor(.blue)
+                }
+                .disabled(messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+            .padding()
         }
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
@@ -62,5 +84,5 @@ struct ConversationView: View {
 }
 
 #Preview {
-    ConversationView(router: MockChatRouter.shared,contact: Contact.mock[0])
+    ConversationView(scope: ChatScope.mock, contact: Contact.mock[0])
 }

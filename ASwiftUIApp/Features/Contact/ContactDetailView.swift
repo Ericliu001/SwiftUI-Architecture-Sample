@@ -13,20 +13,21 @@ struct ContactDetailView: View {
         case table
         case list
     }
-    
-    let router: ContactRouter
+
+    let scope: ContactScope
     var contact: Contact
-    
+
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 VStack(alignment: .leading) {
                     HeaderView(
+                        dataModel: scope.dataModel,
                         contact: contact,
                         height: geometry.size.height,
                         width: geometry.size.width
                     )
-                    ContactInfoView(router: router, contact: contact)
+                    scope.contactInfoView(contact: contact)
                 }
             }
         }
@@ -34,5 +35,5 @@ struct ContactDetailView: View {
 }
 
 #Preview {
-    ContactDetailView(router: MockContactRouter.shared, contact: .mock.first!)
+    ContactDetailView(scope: ContactScope.mock, contact: .mock.first!)
 }

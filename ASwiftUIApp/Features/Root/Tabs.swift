@@ -6,12 +6,10 @@
 //  Copyright © 2025 Apple. All rights reserved.
 //
 
-import Foundation
-
 enum Tabs {
     case chats
     case settings
-    
+
     var name: String {
         switch self {
         case .chats:
@@ -20,7 +18,7 @@ enum Tabs {
             return "Settings"
         }
     }
-    
+
     var systemImageName: String {
         switch self {
         case .chats:

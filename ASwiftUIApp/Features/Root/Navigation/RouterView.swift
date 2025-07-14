@@ -9,30 +9,35 @@
 import SwiftUI
 
 struct RouterView: View {
-    let router: Router
-    let destination: Destination
-    
+    private let scope: RootScope
+    private let destination: Destination
+
+    init(scope: RootScope, destination: Destination) {
+        self.scope = scope
+        self.destination = destination
+    }
+
     var body: some View {
         switch destination {
         case .conversation(let recipient):
-            ConversationView(router: router, contact: recipient)
+            scope.chatScope.conversationView(contact: recipient)
                 .toolbar(.hidden, for: .tabBar)
         case .contactDetail(let contact):
-            ContactDetailView(router: router, contact: contact)
+            scope.contactScope.contactDetailView(contact: contact)
                 .toolbar(.hidden, for: .tabBar)
         case .contactList:
-            ContactFeatureRootView(router: router)
+            scope.contactScope.contactFeatureRootView()
                 .toolbar(.hidden, for: .tabBar)
         case .profile_settings:
-            ProfileSettingsView()
+            scope.settingsScope.profileSettingsView()
                 .toolbar(.hidden, for: .tabBar)
         case .privacy_settings:
-            PrivacySettingsView()
+            scope.settingsScope.privacySettingsView()
                 .toolbar(.hidden, for: .tabBar)
         }
     }
 }
 
 #Preview {
-    RouterView(router: Router() ,destination: .contactList)
+    RouterView(scope: RootScope.mock ,destination: .contactList)
 }

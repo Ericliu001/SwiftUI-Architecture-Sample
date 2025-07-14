@@ -129,7 +129,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 46673C072C2BE5E500AB154C /* Build configuration list for PBXProject "SwiftUINavigationSample" */;
+			buildConfigurationList = 46673C072C2BE5E500AB154C /* Build configuration list for PBXProject "ArchitectureSample" */;
 			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -302,7 +302,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASwiftUIApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "SwiftUI Navigation Sample";
+				INFOPLIST_KEY_CFBundleDisplayName = "Architecture Sample";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -318,7 +318,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.swiftui-navigation";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.architecture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				REGISTER_APP_GROUPS = YES;
@@ -348,7 +348,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ASwiftUIApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "SwiftUI Navigation Sample";
+				INFOPLIST_KEY_CFBundleDisplayName = "Architecture Sample";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -364,7 +364,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.swiftui-navigation";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.architecture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				REGISTER_APP_GROUPS = YES;
@@ -380,7 +380,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		46673C072C2BE5E500AB154C /* Build configuration list for PBXProject "SwiftUINavigationSample" */ = {
+		46673C072C2BE5E500AB154C /* Build configuration list for PBXProject "ArchitectureSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46673C192C2BE5E600AB154C /* Debug */,

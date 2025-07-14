@@ -1,5 +1,5 @@
 //
-//  SettingsHome.swift
+//  SettingsHomeView.swift
 //  ASwiftUIApp
 //
 //  Created by Eric Liu on 7/8/25.
@@ -9,33 +9,40 @@
 import SwiftUI
 
 struct SettingsHomeView: View {
-    let router: SettingsRouter
-    
+    let scope: SettingsScope
+
+    @State private var notificationsEnabled = true
+    @State private var darkModeEnabled = false
+
+    init(scope: SettingsScope) {
+        self.scope = scope
+    }
+
     var body: some View {
         Form {
             Section(header: Text("Account")) {
                 Button("Profile") {
-                    router.goToProfile()
+                    scope.router.goToProfile()
                 }
                 Button("Privacy") {
-                    router.gotoPrivacy()
+                    scope.router.gotoPrivacy()
                 }
             }
 
             Section(header: Text("App Settings")) {
-                Toggle("Enable Notifications", isOn: .constant(true))
-                Toggle("Dark Mode", isOn: .constant(false))
+                Toggle("Enable Notifications", isOn: $notificationsEnabled)
+                Toggle("Dark Mode", isOn: $darkModeEnabled)
             }
-            
+
             Section {
                 Button("Back to Chats") {
-                    router.gotoChats()
+                    scope.router.gotoChats()
                 }
             }
 
             Section {
                 Button(role: .destructive) {
-                    print("User tapped Sign Out")
+                    // Handle sign out action
                 } label: {
                     Text("Sign Out")
                 }
@@ -47,5 +54,5 @@ struct SettingsHomeView: View {
 }
 
 #Preview {
-    SettingsHomeView(router: MockSettingsRouter.shared)
+    SettingsHomeView(scope: SettingsScope.mock)
 }

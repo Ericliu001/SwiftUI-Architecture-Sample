@@ -9,10 +9,15 @@
 import SwiftUI
 
 struct PrivacySettingsView: View {
+    let scope: SettingsScope
     @State private var enableLocationServices = false
     @State private var cameraAccess = false
     @State private var microphoneAccess = false
     @State private var shareUsageData = true
+
+    init(scope: SettingsScope) {
+        self.scope = scope
+    }
 
     var body: some View {
         Form {
@@ -29,7 +34,6 @@ struct PrivacySettingsView: View {
             Section {
                 Button("Manage App Permissions") {
                     // Insert action to open system settings if desired
-                    print("Manage App Permissions tapped")
                 }
             }
         }
@@ -39,5 +43,5 @@ struct PrivacySettingsView: View {
 }
 
 #Preview {
-    PrivacySettingsView()
+    PrivacySettingsView(scope: SettingsScope.mock)
 }

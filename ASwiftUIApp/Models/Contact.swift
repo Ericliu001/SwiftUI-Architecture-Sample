@@ -51,16 +51,16 @@ extension Contact: Transferable {
         }
         .suggestedFileName { $0.fullName }
     }
-    
+
     static func parseVCardData(_ data: Data) async throws -> Contact {
         let contacts = try await CNContactVCardSerialization.contacts(
             with: data
         )
-        
+
         guard let contact = contacts.first else {
             throw NSError(domain: "ContactImportError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Invalid vCard data."])
         }
-        
+
         let phoneNumber = contact.phoneNumbers.first?.value.stringValue ?? ""
         let email = contact.emailAddresses.first?.value as String?
         let thumbNail: Data? = contact.imageData
@@ -142,7 +142,7 @@ extension Contact {
              videoURL: nil
          )
      ]
-    
+
     static func convertImageToData(_ image: PlatformImage) -> Data? {
          #if canImport(AppKit)
          guard let tiffData = image.tiffRepresentation else { return nil }
@@ -167,7 +167,7 @@ extension Contact {
         let data = try CNContactVCardSerialization.data(with: [contact])
         return data
     }
-    
+
     static func urlForResource(named name: String, withExtension ext: String) -> URL? {
         Bundle.main.url(forResource: name, withExtension: ext)
     }

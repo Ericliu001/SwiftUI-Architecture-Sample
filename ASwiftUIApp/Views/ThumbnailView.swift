@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ThumbnailView: View {
     var contact: Contact
-    
+
     var body: some View {
         Group {
             if let thumbnailData = contact.thumbNail,
