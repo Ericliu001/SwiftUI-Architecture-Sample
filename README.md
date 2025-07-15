@@ -1,4 +1,4 @@
-# SwiftUI Navigation Sample - Dual Architecture Design 
+# SwiftUI Architecture Sample 
 
 ### [Wiki](https://github.com/Ericliu001/SwiftUI-Architecture-Sample/wiki)
  - [Navigation Architecture](https://github.com/Ericliu001/SwiftUI-Navigation-Sample/wiki/Navigation)
