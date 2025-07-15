@@ -1,6 +1,8 @@
 # SwiftUI Navigation Sample - Dual Architecture Design 
 
-## [Wiki Home](https://github.com/Ericliu001/SwiftUI-Architecture-Sample/wiki)
+### [Wiki](https://github.com/Ericliu001/SwiftUI-Architecture-Sample/wiki)
+ - [Navigation Architecture](https://github.com/Ericliu001/SwiftUI-Navigation-Sample/wiki/Navigation)
+ - [Scope Architecture](https://github.com/Ericliu001/SwiftUI-Navigation-Sample/wiki/Scope-Architecture-Design)
 
 A comprehensive demonstration of modern SwiftUI navigation patterns combined with scope-based dependency injection architecture. This project showcases two complementary architectural approaches: **Navigation Architecture** (TabView, multiple NavigationStacks, programmatic navigation, and type-safe routing) and **Scope Architecture** (hierarchical dependency injection with protocol-based isolation). Together, they create a scalable foundation for building complex SwiftUI applications.
 
