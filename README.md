@@ -10,96 +10,20 @@ A comprehensive demonstration of modern SwiftUI navigation patterns combined wit
 
 This sample project demonstrates two complementary architectural approaches that together solve complex challenges in building scalable SwiftUI applications:
 
-**Navigation Architecture:**
+**Navigation Architecture ([Wiki](https://github.com/Ericliu001/SwiftUI-Navigation-Sample/wiki/Navigation)):**
 - **TabView with Multiple NavigationStacks** - Each tab has its own independent NavigationStack and navigation state
 - **Type-safe Navigation** with enum-based destinations
 - **Programmatic Navigation** using a centralized router
 - **Protocol-based Routing** for feature isolation and testability
 
-**Scope Architecture:**
+**Scope Architecture ([Wiki](https://github.com/Ericliu001/SwiftUI-Navigation-Sample/wiki/Scope-Architecture-Design)):**
 - **Hierarchical Dependency Injection** - Scope tree manages dependencies independently of view hierarchy
 - **Protocol-based Parent Contracts** - Child scopes define required dependencies through protocols
 - **Feature Isolation** - Each scope owns its domain-specific dependencies and state
 - **Testability** - Easy mocking through scope hierarchies and protocol abstractions
 
-## Architecture Overview
 
-This project implements two complementary architectural patterns that work together to create a maintainable and scalable SwiftUI application:
-
-### Navigation Architecture
-
-The Navigation Architecture provides type-safe, centralized routing with independent navigation stacks for each tab:
-
-```swift
-// Type-safe destinations with associated data
-enum Destination: Hashable {
-    case contactList
-    case conversation(Contact)
-    case contactDetail(Contact)
-    case profile_settings
-    case privacy_settings
-}
-
-// Centralized router implementing feature-specific protocols
-@Observable
-final class Router: ContactRouter, ChatRouter, SettingsRouter {
-    var selectedTab: Tabs = .chats
-    var chatTabPath: [Destination] = []
-    var settingsTabPath: [Destination] = []
-    
-    func gotoConversation(recipient: Contact) {
-        chatTabPath = [.conversation(recipient)]
-    }
-    
-    func gotoContactDetail(_ contact: Contact) {
-        chatTabPath.append(.contactDetail(contact))
-    }
-}
-```
-
-### Scope Architecture
-
-The Scope Architecture provides hierarchical dependency injection that separates dependency management from the view hierarchy:
-
-```swift
-// Root scope managing all app-level dependencies
-final class RootScope: ContactScope.Parent, ChatScope.Parent, SettingsScope.Parent {
-    // Shared dependencies
-    lazy var rootRouter = Router()
-    lazy var dataModel = DataModel()
-    
-    // Protocol implementations for child scopes
-    lazy var contactRouter: ContactRouter = rootRouter
-    lazy var chatRouter: ChatRouter = rootRouter
-    
-    // Child scopes
-    lazy var contactScope: ContactScope = .init(parent: self)
-    lazy var chatScope: ChatScope = .init(parent: self)
-}
-
-// Feature scope with protocol-based parent dependencies
-final class ChatScope {
-    private let parent: Parent
-    
-    // Dependencies from parent
-    lazy var router: ChatRouter = parent.chatRouter
-    
-    // Local feature dependencies
-    lazy var messages: [Message] = Message.sampleData
-    
-    // View factory methods
-    func chatFeatureRootview() -> some View {
-        ChatFeatureRootView(scope: self)
-    }
-    
-    // Parent contract defining required dependencies
-    protocol Parent {
-        var chatRouter: ChatRouter { get }
-    }
-}
-```
-
-### How They Work Together
+#### How They Work Together
 
 The two architectures complement each other:
 
@@ -110,27 +34,6 @@ The two architectures complement each other:
 5. Router manages navigation state centrally while scopes provide the dependencies
 
 This combination enables building complex applications with clear separation of concerns, excellent testability, and maintainable feature boundaries.
-
-## Design Philosophy
-
-### Core Principles
-
-1. **Single Source of Truth**: The Router manages all navigation state for each tab
-2. **Type Safety**: Compile-time checking of navigation destinations
-3. **Dependency Inversion**: Features depend on routing protocols, not concrete implementations
-4. **Testability**: Easy mocking and unit testing of navigation logic
-5. **Scalability**: Clean separation of concerns for large applications
-6. **State Retention**: Each tab retains its navigation stack when switching tabs
-
-### Why This Approach?
-
-SwiftUI navigation with multiple `NavigationLink`s scattered throughout the view hierarchy can become difficult to manage as applications grow. This approach provides:
-
-- **Centralized Control**: All navigation logic in one place
-- **Predictable State**: Clear navigation state management
-- **Better Testing**: Isolated navigation logic for unit tests
-- **Feature Isolation**: Each feature defines its own routing needs
-- **Independent Tab Navigation**: Each tab maintains its own navigation history, improving user experience
 
 ## Navigation Architecture Details
 
@@ -303,33 +206,9 @@ RootScope
 
 Each scope manages its own dependencies and can provide dependencies to child scopes.
 
-### 2. Root Scope Implementation
+### 2. Scope Implementation Pattern
 
-```swift
-final class RootScope: ContactScope.Parent, ChatScope.Parent, SettingsScope.Parent {
-    // Local Dependencies - shared across the application
-    lazy var rootRouter = Router()
-    lazy var dataModel = DataModel()
-
-    // Router protocol implementations for child scopes
-    lazy var contactRouter: ContactRouter = rootRouter
-    lazy var chatRouter: ChatRouter = rootRouter
-    lazy var settingsRouter: SettingsRouter = rootRouter
-
-    // Child Scopes - feature-level dependency containers
-    lazy var contactScope: ContactScope = .init(parent: self)
-    lazy var chatScope: ChatScope = .init(parent: self)
-    lazy var settingsScope: SettingsScope = .init(parent: self)
-}
-```
-
-**Key Features:**
-- Implements parent protocols for all child scopes
-- Provides shared dependencies (router, data model) to children
-- Uses lazy initialization for memory efficiency
-- Manages all feature-level child scopes
-
-### 3. Feature Scope Pattern
+A scope is a dependency container that manages resources for a specific feature or domain. Here's what constitutes a scope using ChatScope as an example:
 
 ```swift
 final class ChatScope {
@@ -366,11 +245,46 @@ extension ChatScope {
 }
 ```
 
-**Architecture Benefits:**
-- **Protocol-based Dependencies**: Child scopes define required parent dependencies through protocols
-- **View Factory Pattern**: Centralized view creation with proper dependency injection
-- **Feature Isolation**: Each scope owns its domain-specific dependencies and state
+**Key Components of a Scope:**
+- **Parent Reference**: Receives dependencies from parent through protocols
+- **Local Dependencies**: Manages feature-specific state and resources
+- **Child Scopes**: Can contain other scopes for sub-features
+- **View Factory Methods**: Creates views with proper dependency injection
+- **Parent Protocol**: Defines contract for required dependencies
 - **Lazy Loading**: Dependencies are created only when needed
+
+### 3. Scope Tree Structure
+
+The application organizes scopes in a hierarchical tree, where each scope can contain child scopes and receives dependencies from its parent:
+
+```swift
+// Parent scope providing shared dependencies
+final class RootScope: ChatScope.Parent, ContactScope.Parent, SettingsScope.Parent {
+    lazy var rootRouter = Router()
+    lazy var dataModel = DataModel()
+    
+    // Protocol implementations for child scopes
+    lazy var chatRouter: ChatRouter = rootRouter
+    lazy var contactRouter: ContactRouter = rootRouter
+    
+    // Child scopes
+    lazy var chatScope: ChatScope = .init(parent: self)
+    lazy var contactScope: ContactScope = .init(parent: self)
+}
+
+// Child scope within the chat domain
+final class ChatListItemScope {
+    func listItemView(chat: Chat) -> some View {
+        ChatListItemView(chat: chat)
+    }
+}
+```
+
+**Tree Benefits:**
+- **Dependency Flow Control**: Dependencies flow down from parent to child
+- **Feature Isolation**: Each scope manages its own domain
+- **Lazy Creation**: Scopes are created only when needed
+- **Clean Boundaries**: Clear separation between different app areas
 
 ### 4. Dependency Injection in Views
 
@@ -420,121 +334,14 @@ The scope architecture enables comprehensive testing through:
 
 The scope architecture integrates seamlessly with the navigation architecture:
 
-1. **RootScope** creates and manages the central `Router`
+1. **Parent scopes** create and provide access to the central `Router`
 2. **Feature scopes** receive router protocols through parent dependencies
 3. **Views** trigger navigation through scope-injected router protocols
 4. **Router** manages navigation state centrally while scopes provide structure
 
 This integration ensures that dependency management and navigation concerns remain properly separated while working together effectively.
 
-## App Structure
 
-### Architecture Integration
-
-The sample app demonstrates how Navigation and Scope architectures work together in a chat application:
-
-**Scope Tree:**
-```
-RootScope (Router, DataModel)
-├── ContactScope → ContactRouter protocol
-├── ChatScope → ChatRouter protocol
-│   └── ChatListItemScope
-└── SettingsScope → SettingsRouter protocol
-```
-
-**Navigation State:**
-```
-Router
-├── selectedTab: Tabs
-├── chatTabPath: [Destination]
-└── settingsTabPath: [Destination]
-```
-
-### Sample App Features
-
-The application features demonstrate both architectures working together:
-
-1. **Home Screen** → ChatScope provides chat list; Router handles navigation to contacts
-2. **Contact List** → ContactScope manages contact data; Router navigates to details
-3. **Contact Detail** → ContactScope provides contact info; Router enables conversation start
-4. **Conversation** → ChatScope manages messages; Router handles detail navigation
-5. **Settings** → SettingsScope manages preferences; Router controls navigation flow
-
-### Navigation & Dependency Flow Examples
-
-**Flow 1: Start New Conversation**
-```
-1. ChatScope.chatListView() renders chat list
-2. User taps "Add Contact" → scope.router.gotoContactList()
-3. Router navigates to .contactList destination
-4. ContactScope.contactListView() displays contacts
-5. User selects contact → scope.router.gotoConversation(recipient: contact)
-6. Router updates chatTabPath with .conversation(contact)
-7. ChatScope.conversationView() renders with injected contact
-```
-
-**Flow 2: Architecture Integration**
-```
-App Launch:
-├── RootScope created with Router and DataModel
-├── Child scopes (Contact, Chat, Settings) initialized
-├── Router protocols injected into respective scopes
-├── ContentView receives RootScope
-├── TabView binds to router.selectedTab
-└── NavigationStacks bind to router tab paths
-
-Navigation Event:
-├── View calls scope.router.methodName()
-├── Router (via protocol) updates navigation state
-├── SwiftUI responds to @Observable Router changes
-├── NavigationStack pushes to new destination
-└── RouterView maps destination to scope.viewFactory()
-```
-
-Each tab maintains its own navigation stack through the Router, while scopes provide the appropriate dependencies and view factories for each feature area.
-
-
-## Best Practices
-
-1. **TabView with Multiple NavigationStacks**: Use a TabView at the root, with a separate NavigationStack for each tab
-2. **Type Safety**: Always use enum-based destinations
-3. **Protocol Dependencies**: Features should depend on protocols, not concrete types
-4. **Centralized Router**: Keep all navigation logic in one place
-5. **Testability**: Design for easy testing with mock implementations
-6. **State Retention**: Let each tab maintain its own navigation history for a better user experience
-
-## Getting Started
-
-1. Clone the repository
-2. Open `SwiftUINavigationSample.xcodeproj` in Xcode
-3. Build and run on your target platform
-4. Explore the navigation patterns by tapping through the app
-5. Examine the code to understand the implementation
-
-## Usage Examples
-
-### Basic Navigation
-
-```swift
-// Navigate to contacts list
-router.gotoContactsList()
-
-// Navigate to specific contact detail
-router.gotoContactDetail(contact)
-
-// Navigate to conversation with contact
-router.gotoConversation(recipient: contact)
-
-// Reset navigation to home
-router.chatTabPath = []
-```
-
-### Adding New Destinations
-
-1. Add a new case to the `Destination` enum
-2. Add navigation methods to the `Router` class
-3. Update the `RouterView` switch statement
-4. Create the corresponding view
 
 ## Contributing
 
