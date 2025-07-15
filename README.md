@@ -342,12 +342,6 @@ The scope architecture integrates seamlessly with the navigation architecture:
 This integration ensures that dependency management and navigation concerns remain properly separated while working together effectively.
 
 
-
-## Contributing
-
-This sample demonstrates modern SwiftUI navigation best practices that can be adapted for your own applications. Feel free to use this as a reference for implementing scalable navigation in your SwiftUI projects.
-
-
 ---
 
 *This sample demonstrates an opinionated approach to SwiftUI navigation that prioritizes type safety, testability, and scalability. For more details on the design philosophy, see the accompanying blog post: [Building Scalable SwiftUI Navigation](https://eric-liu-developer.medium.com/building-scalable-navigation-in-swiftui-wip-45ff2845e4e2).*
