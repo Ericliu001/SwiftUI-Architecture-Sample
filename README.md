@@ -1,6 +1,6 @@
-# SwiftUI Navigation Sample
+# SwiftUI Navigation Sample - Dual Architecture Design
 
-A comprehensive demonstration of modern SwiftUI navigation patterns using TabView, multiple NavigationStacks, programmatic navigation, and type-safe routing. This project showcases an opinionated approach to building scalable navigation in SwiftUI applications.
+A comprehensive demonstration of modern SwiftUI navigation patterns combined with scope-based dependency injection architecture. This project showcases two complementary architectural approaches: **Navigation Architecture** (TabView, multiple NavigationStacks, programmatic navigation, and type-safe routing) and **Scope Architecture** (hierarchical dependency injection with protocol-based isolation). Together, they create a scalable foundation for building complex SwiftUI applications.
 
 
 ## Overview
@@ -8,35 +8,34 @@ A comprehensive demonstration of modern SwiftUI navigation patterns using TabVie
 ![Screenshot2](https://private-user-images.githubusercontent.com/3691022/463651885-edfca4fe-bd05-4609-ad13-249ad08899de.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI1MDEzMTAsIm5iZiI6MTc1MjUwMTAxMCwicGF0aCI6Ii8zNjkxMDIyLzQ2MzY1MTg4NS1lZGZjYTRmZS1iZDA1LTQ2MDktYWQxMy0yNDlhZDA4ODk5ZGUucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDcxNCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA3MTRUMTM1MDEwWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9MGY0ZWU5NzE4MWY3NTI4ZjcwNTM2YjJlZDJkNTA3ZDIwYzY0MTU3ZWUyYzQ5MWIyMzE1M2M2YWRjZTQ5ZDcwMiZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.Gr-cMjVgIgLNalj3io0Y_8zrXBXQCUClEvuMfM316Cc)
 ![Screenshot3](https://private-user-images.githubusercontent.com/3691022/463651884-b7716b24-b050-488f-90d4-350cee51acb7.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTE5NzI4NjQsIm5iZiI6MTc1MTk3MjU2NCwicGF0aCI6Ii8zNjkxMDIyLzQ2MzY1MTg4NC1iNzcxNmIyNC1iMDUwLTQ4OGYtOTBkNC0zNTBjZWU1MWFjYjcucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDcwOCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA3MDhUMTEwMjQ0WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9YzM1ZTE2OGYyYTI1N2M5YjM1NDE2MDdhMzYxZjk4NGNlNTgyY2E5NzdlZmFhM2FkOTllOTdjNGE4MjcwNGE5MCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.2BuchI9L0zi2aNpHDahkj3rHEiC92FAi3p-lPxm-Vs0)
 
-This sample project demonstrates advanced SwiftUI navigation techniques that solve common navigation challenges in complex applications:
+This sample project demonstrates two complementary architectural approaches that together solve complex challenges in building scalable SwiftUI applications:
 
+**Navigation Architecture ([Wiki](https://github.com/Ericliu001/SwiftUI-Navigation-Sample/wiki/Navigation)):**
 - **TabView with Multiple NavigationStacks** - Each tab has its own independent NavigationStack and navigation state
 - **Type-safe Navigation** with enum-based destinations
 - **Programmatic Navigation** using a centralized router
 - **Protocol-based Routing** for feature isolation and testability
 
-## Design Philosophy
+**Scope Architecture ([Wiki](https://github.com/Ericliu001/SwiftUI-Navigation-Sample/wiki/Scope-Architecture-Design)):**
+- **Hierarchical Dependency Injection** - Scope tree manages dependencies independently of view hierarchy
+- **Protocol-based Parent Contracts** - Child scopes define required dependencies through protocols
+- **Feature Isolation** - Each scope owns its domain-specific dependencies and state
+- **Testability** - Easy mocking through scope hierarchies and protocol abstractions
 
-### Core Principles
 
-1. **Single Source of Truth**: The Router manages all navigation state for each tab
-2. **Type Safety**: Compile-time checking of navigation destinations
-3. **Dependency Inversion**: Features depend on routing protocols, not concrete implementations
-4. **Testability**: Easy mocking and unit testing of navigation logic
-5. **Scalability**: Clean separation of concerns for large applications
-6. **State Retention**: Each tab retains its navigation stack when switching tabs
+#### How They Work Together
 
-### Why This Approach?
+The two architectures complement each other:
 
-SwiftUI navigation with multiple `NavigationLink`s scattered throughout the view hierarchy can become difficult to manage as applications grow. This approach provides:
+1. **Scope Architecture** manages dependency injection and feature isolation
+2. **Navigation Architecture** handles routing and navigation state
+3. Scopes inject routers into views through the dependency tree
+4. Views trigger navigation through injected router protocols
+5. Router manages navigation state centrally while scopes provide the dependencies
 
-- **Centralized Control**: All navigation logic in one place
-- **Predictable State**: Clear navigation state management
-- **Better Testing**: Isolated navigation logic for unit tests
-- **Feature Isolation**: Each feature defines its own routing needs
-- **Independent Tab Navigation**: Each tab maintains its own navigation history, improving user experience
+This combination enables building complex applications with clear separation of concerns, excellent testability, and maintainable feature boundaries.
 
-## Navigation Architecture
+## Navigation Architecture Details
 
 ### 1. Destination Enum
 
@@ -189,79 +188,160 @@ Button("Add Contact") {
 }
 ```
 
-## App Structure
+## Scope Architecture Details
 
-### Sample App Features
+The Scope Architecture implements a hierarchical dependency injection system that manages application dependencies independently of the view hierarchy. This provides clean feature isolation, excellent testability, and scalable dependency management.
 
-The sample app demonstrates a chat application with the following navigation flows:
+### 1. Scope Hierarchy
 
-1. **Home Screen** → Shows chat list with navigation to contacts
-2. **Contact List** → Displays contacts in table or list format  
-3. **Contact Detail** → Shows detailed contact information
-4. **Conversation** → Chat interface with the selected contact
-5. **Settings** → Profile and privacy settings, each with their own navigation stack
+The application uses a tree structure of scopes:
 
-### Navigation Flows
-
-**Flow 1: Enter Existing Conversation**
 ```
-Chats Tab → Home → Conversation → Contact Detail 
+RootScope
+├── ContactScope
+├── ChatScope
+│   └── ChatListItemScope
+└── SettingsScope
 ```
 
-**Flow 2: Start New Conversation**
-```
-Chats Tab → Home → Contact List → Contact Detail → Conversation
-```
+Each scope manages its own dependencies and can provide dependencies to child scopes.
 
-**Flow 3: Settings Navigation**
-```
-Settings Tab → Settings Home → Profile Settings / Privacy Settings
-```
+### 2. Scope Implementation Pattern
 
-Each tab maintains its own navigation stack, allowing users to switch tabs and return to their previous navigation state within each tab.
-
-
-## Best Practices
-
-1. **TabView with Multiple NavigationStacks**: Use a TabView at the root, with a separate NavigationStack for each tab
-2. **Type Safety**: Always use enum-based destinations
-3. **Protocol Dependencies**: Features should depend on protocols, not concrete types
-4. **Centralized Router**: Keep all navigation logic in one place
-5. **Testability**: Design for easy testing with mock implementations
-6. **State Retention**: Let each tab maintain its own navigation history for a better user experience
-
-## Getting Started
-
-1. Clone the repository
-2. Open `SwiftUINavigationSample.xcodeproj` in Xcode
-3. Build and run on your target platform
-4. Explore the navigation patterns by tapping through the app
-5. Examine the code to understand the implementation
-
-## Usage Examples
-
-### Basic Navigation
+A scope is a dependency container that manages resources for a specific feature or domain. Here's what constitutes a scope using ChatScope as an example:
 
 ```swift
-// Navigate to contacts list
-router.gotoContactsList()
+final class ChatScope {
+    // Parent Reference - connection to parent scope
+    private let parent: Parent
+    
+    // Dependencies from Parent - accessing shared resources
+    lazy var router: ChatRouter = parent.chatRouter
+    
+    // Local Dependencies - feature-specific state and resources
+    lazy var messages: [Message] = Message.sampleData
+    lazy var chatListItemScope: ChatListItemScope = .init()
 
-// Navigate to specific contact detail
-router.gotoContactDetail(contact)
+    // Initialization
+    init(parent: Parent) {
+        self.parent = parent
+    }
 
-// Navigate to conversation with contact
-router.gotoConversation(recipient: contact)
+    // View Factory Methods - centralized view creation
+    func chatFeatureRootview() -> some View {
+        ChatFeatureRootView(scope: self)
+    }
+    
+    func conversationView(contact: Contact) -> some View {
+        ConversationView(scope: self, contact: contact)
+    }
+}
 
-// Reset navigation to home
-router.chatTabPath = []
+extension ChatScope {
+    // Parent Protocol - defines required dependencies
+    protocol Parent {
+        var chatRouter: ChatRouter { get }
+    }
+}
 ```
 
-### Adding New Destinations
+**Key Components of a Scope:**
+- **Parent Reference**: Receives dependencies from parent through protocols
+- **Local Dependencies**: Manages feature-specific state and resources
+- **Child Scopes**: Can contain other scopes for sub-features
+- **View Factory Methods**: Creates views with proper dependency injection
+- **Parent Protocol**: Defines contract for required dependencies
+- **Lazy Loading**: Dependencies are created only when needed
 
-1. Add a new case to the `Destination` enum
-2. Add navigation methods to the `Router` class
-3. Update the `RouterView` switch statement
-4. Create the corresponding view
+### 3. Scope Tree Structure
+
+The application organizes scopes in a hierarchical tree, where each scope can contain child scopes and receives dependencies from its parent:
+
+```swift
+// Parent scope providing shared dependencies
+final class RootScope: ChatScope.Parent, ContactScope.Parent, SettingsScope.Parent {
+    lazy var rootRouter = Router()
+    lazy var dataModel = DataModel()
+    
+    // Protocol implementations for child scopes
+    lazy var chatRouter: ChatRouter = rootRouter
+    lazy var contactRouter: ContactRouter = rootRouter
+    
+    // Child scopes
+    lazy var chatScope: ChatScope = .init(parent: self)
+    lazy var contactScope: ContactScope = .init(parent: self)
+}
+
+// Child scope within the chat domain
+final class ChatListItemScope {
+    func listItemView(chat: Chat) -> some View {
+        ChatListItemView(chat: chat)
+    }
+}
+```
+
+**Tree Benefits:**
+- **Dependency Flow Control**: Dependencies flow down from parent to child
+- **Feature Isolation**: Each scope manages its own domain
+- **Lazy Creation**: Scopes are created only when needed
+- **Clean Boundaries**: Clear separation between different app areas
+
+### 4. Dependency Injection in Views
+
+```swift
+struct ChatFeatureRootView: View {
+    let scope: ChatScope
+
+    var body: some View {
+        VStack {
+            scope.chatListView()  // Using scope as view factory
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button(action: {
+                    scope.router.gotoContactList()  // Using injected router
+                }) {
+                    Image(systemName: "plus.circle.fill")
+                }
+            }
+        }
+    }
+}
+```
+
+Views receive their dependencies through scopes, enabling clean separation and easy testing.
+
+### 5. Testing with Mock Scopes
+
+```swift
+#if DEBUG
+extension ChatScope {
+    private class MockParent: Parent {
+        var chatRouter: ChatRouter = MockChatRouter.shared
+    }
+
+    static let mock = ChatScope(parent: MockParent())
+}
+#endif
+```
+
+The scope architecture enables comprehensive testing through:
+- **Mock Parent Implementations**: Easy to create test doubles for parent dependencies
+- **Isolated Testing**: Each scope can be tested independently
+- **Protocol Abstractions**: Mock routers and dependencies through protocol conformance
+
+### 6. Integration with Navigation Architecture
+
+The scope architecture integrates seamlessly with the navigation architecture:
+
+1. **Parent scopes** create and provide access to the central `Router`
+2. **Feature scopes** receive router protocols through parent dependencies
+3. **Views** trigger navigation through scope-injected router protocols
+4. **Router** manages navigation state centrally while scopes provide structure
+
+This integration ensures that dependency management and navigation concerns remain properly separated while working together effectively.
+
+
 
 ## Contributing
 
