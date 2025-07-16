@@ -24,7 +24,7 @@ struct ChatFeatureRootView: View {
             ToolbarItem(placement: .automatic) {
                 Button(
                     action: {
-                        scope.router.gotoContactList()
+                        scope.chatRouter.gotoContactList()
                     }
                 ) {
                     Image(systemName: "plus.circle.fill")

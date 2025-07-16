@@ -18,7 +18,7 @@ struct ChatListView: View {
             List {
                 ForEach(chats) { chat in
                     Button(action: {
-                        scope.router.gotoConversation(recipient: chat.recipient)
+                        scope.chatRouter.gotoConversation(recipient: chat.recipient)
                     })
                     {
                         scope.chatListItemScope.value.listItemView(chat: chat)

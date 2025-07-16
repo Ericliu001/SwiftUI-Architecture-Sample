@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-final class ChatScope {
+final class ChatScope: ConversationScope.Parent, ChatListItemScope.Parent {
     // Parent Reference
     // Connection to parent scope through protocol-defined interface
     private let parent: Parent
@@ -25,16 +25,15 @@ final class ChatScope {
 
     // Dependencies from Parent
     // Accessing parent-provided resources through lazy properties
-    lazy var router: ChatRouter = parent.chatRouter
+    lazy var chatRouter: ChatRouter = parent.chatRouter
     
-    // Local Dependencies
-    // Scope-specific state and resources that belong to the chat feature
-    lazy var messages: [Message] = Message.sampleData
+
 
     // Child Scopes
     // Managing child feature domains within the chat scope
+    lazy var conversationScope: Weak<ConversationScope> = Weak({ ConversationScope(parent: self) })
     lazy var chatListItemScope: Weak<ChatListItemScope> = Weak({ ChatListItemScope(parent: self) })
-
+    
     // View Factory Methods
     // Creating views with proper dependency injection
     func chatFeatureRootview() -> some View {
@@ -44,20 +43,12 @@ final class ChatScope {
     func chatListView() -> some View {
         ChatListView(scope: self)
     }
-
-    func conversationView(contact: Contact) -> some View {
-        ConversationView(scope: self, contact: contact)
-    }
 }
 
 extension ChatScope {
     protocol Parent {
         var chatRouter: ChatRouter { get }
     }
-}
-
-extension ChatScope: ChatListItemScope.Parent {
-    // No specific implementations needed for ChatListItemScope.Parent
 }
 
 #if DEBUG

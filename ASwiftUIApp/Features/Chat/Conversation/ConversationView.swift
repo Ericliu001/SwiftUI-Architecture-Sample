@@ -9,11 +9,11 @@
 import SwiftUI
 
 struct ConversationView: View {
-    private let scope: ChatScope
+    private let scope: ConversationScope
     private let contact: Contact
     @State private var messageText: String = ""
 
-    init(scope: ChatScope, contact: Contact) {
+    init(scope: ConversationScope, contact: Contact) {
         self.scope = scope
         self.contact = contact
     }
@@ -84,5 +84,5 @@ struct ConversationView: View {
 }
 
 #Preview {
-    ConversationView(scope: ChatScope.mock, contact: Contact.mock[0])
+    ConversationView(scope: ConversationScope.mock, contact: Contact.mock[0])
 }
