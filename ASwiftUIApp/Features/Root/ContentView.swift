@@ -23,7 +23,7 @@ struct ContentView: View {
                 value: Tabs.chats
             ) {
                 NavigationStack(path: $router.chatTabPath) {
-                    scope.chatScope.chatFeatureRootview()
+                    scope.chatScope.value.chatFeatureRootview()
                         .navigationDestination(for: Destination.self) {
                             dest in
                             scope.routerView(dest: dest)
@@ -37,7 +37,7 @@ struct ContentView: View {
                 value: Tabs.settings
             ) {
                 NavigationStack(path: $router.settingsTabPath) {
-                    scope.settingsScope.settingsHomeView()
+                    scope.settingsScope.value.settingsHomeView()
                         .navigationDestination(for: Destination.self) {
                             dest in
                             scope.routerView(dest: dest)

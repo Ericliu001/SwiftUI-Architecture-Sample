@@ -21,7 +21,7 @@ struct ChatListView: View {
                         scope.router.gotoConversation(recipient: chat.recipient)
                     })
                     {
-                        scope.chatListItemScope.listItemView(chat: chat)
+                        scope.chatListItemScope.value.listItemView(chat: chat)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .contentShape(Rectangle())
                     }

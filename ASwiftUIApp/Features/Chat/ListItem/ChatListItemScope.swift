@@ -9,7 +9,20 @@
 import Foundation
 import SwiftUI
 final class ChatListItemScope {
+    
+    private let parent: Parent
+    
+    init(parent: Parent) {
+        self.parent = parent
+    }
+    
     func listItemView(chat: Chat) -> some View {
         ChatListItemView(chat: chat)
+    }
+}
+
+extension ChatListItemScope {
+    protocol Parent {
+        // No parent dependencies needed currently
     }
 }

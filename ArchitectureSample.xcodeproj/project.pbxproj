@@ -35,6 +35,7 @@
 		A20955802E09297D004337D1 /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		A209558A2E092987004337D1 /* Preview Content */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Preview Content"; sourceTree = "<group>"; };
 		A209558C2E09298D004337D1 /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
+		A2848F952E27687A00A47990 /* Utils */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Utils; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +70,7 @@
 		46673C0E2C2BE5E500AB154C /* ASwiftUIApp */ = {
 			isa = PBXGroup;
 			children = (
+				A2848F952E27687A00A47990 /* Utils */,
 				A209558C2E09298D004337D1 /* Features */,
 				46EA515C2C4AF54A007C97E0 /* Info.plist */,
 				46D517C12C2BE8450011FB05 /* Resources */,
@@ -107,6 +109,7 @@
 				A20955802E09297D004337D1 /* Views */,
 				A209558A2E092987004337D1 /* Preview Content */,
 				A209558C2E09298D004337D1 /* Features */,
+				A2848F952E27687A00A47990 /* Utils */,
 			);
 			name = ASwiftUIApp;
 			productName = AdoptingDragAndDropInASwiftUIApp;

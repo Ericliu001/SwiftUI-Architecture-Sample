@@ -22,9 +22,9 @@ final class RootScope: ContactScope.Parent, ChatScope.Parent, SettingsScope.Pare
 
     // Child Scopes
     // Managing feature domains at the top level
-    lazy var contactScope: ContactScope = .init(parent: self)
-    lazy var chatScope: ChatScope = .init(parent: self)
-    lazy var settingsScope: SettingsScope = .init(parent: self)
+    lazy var contactScope: Weak<ContactScope> = Weak({ ContactScope(parent: self) })
+    lazy var chatScope: Weak<ChatScope> = Weak( {ChatScope(parent: self)})
+    lazy var settingsScope: Weak<SettingsScope> = Weak({ SettingsScope(parent: self) })
 
     // View Factory Methods
     // Creating root-level views with proper dependency injection
