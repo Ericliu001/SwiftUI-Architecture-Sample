@@ -28,7 +28,7 @@ final class ChatScope {
 
     // Child Scopes
     // Managing child feature domains within the chat scope
-    lazy var chatListItemScope: ChatListItemScope = .init()
+    lazy var chatListItemScope: Weak<ChatListItemScope> = Weak({ ChatListItemScope(parent: self) })
 
     // View Factory Methods
     // Creating views with proper dependency injection
@@ -49,6 +49,10 @@ extension ChatScope {
     protocol Parent {
         var chatRouter: ChatRouter { get }
     }
+}
+
+extension ChatScope: ChatListItemScope.Parent {
+    // No specific implementations needed for ChatListItemScope.Parent
 }
 
 #if DEBUG
