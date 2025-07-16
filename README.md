@@ -220,7 +220,9 @@ final class ChatScope {
     
     // Local Dependencies - feature-specific state and resources
     lazy var messages: [Message] = Message.sampleData
-    lazy var chatListItemScope: ChatListItemScope = .init()
+    
+    // Child Scopes - using Weak<> wrapper for memory efficiency
+    lazy var chatListItemScope: Weak<ChatListItemScope> = Weak({ ChatListItemScope(parent: self) })
 
     // Initialization
     init(parent: Parent) {
@@ -248,7 +250,7 @@ extension ChatScope {
 **Key Components of a Scope:**
 - **Parent Reference**: Receives dependencies from parent through protocols
 - **Local Dependencies**: Manages feature-specific state and resources
-- **Child Scopes**: Can contain other scopes for sub-features
+- **Child Scopes**: Can contain other scopes for sub-features (using `Weak<>` wrapper)
 - **View Factory Methods**: Creates views with proper dependency injection
 - **Parent Protocol**: Defines contract for required dependencies
 - **Lazy Loading**: Dependencies are created only when needed
@@ -267,15 +269,28 @@ final class RootScope: ChatScope.Parent, ContactScope.Parent, SettingsScope.Pare
     lazy var chatRouter: ChatRouter = rootRouter
     lazy var contactRouter: ContactRouter = rootRouter
     
-    // Child scopes
-    lazy var chatScope: ChatScope = .init(parent: self)
-    lazy var contactScope: ContactScope = .init(parent: self)
+    // Child scopes - using Weak<> wrapper for consistent memory management
+    lazy var contactScope: Weak<ContactScope> = Weak({ ContactScope(parent: self) })
+    lazy var chatScope: Weak<ChatScope> = Weak({ ChatScope(parent: self) })
+    lazy var settingsScope: Weak<SettingsScope> = Weak({ SettingsScope(parent: self) })
 }
 
 // Child scope within the chat domain
 final class ChatListItemScope {
+    private let parent: Parent
+    
+    init(parent: Parent) {
+        self.parent = parent
+    }
+    
     func listItemView(chat: Chat) -> some View {
         ChatListItemView(chat: chat)
+    }
+}
+
+extension ChatListItemScope {
+    protocol Parent {
+        // No parent dependencies needed currently
     }
 }
 ```
@@ -286,7 +301,54 @@ final class ChatListItemScope {
 - **Lazy Creation**: Scopes are created only when needed
 - **Clean Boundaries**: Clear separation between different app areas
 
-### 4. Dependency Injection in Views
+### 4. Weak<> Utility for Memory Management
+
+All child scope references use a `Weak<>` wrapper that provides lazy instantiation with weak reference management:
+
+```swift
+// Consistent pattern for all child scopes
+lazy var childScope: Weak<ChildScope> = Weak({ ChildScope(parent: self) })
+
+// Access child scopes via .value property
+childScope.value.someMethod()
+```
+
+The `Weak<T>` utility class offers several benefits:
+
+**Memory Efficiency:**
+- Holds weak references to child scopes to prevent unnecessary memory usage
+- Allows child scopes to be deallocated when not actively used
+- Recreates instances automatically when needed using the provider closure
+
+**Consistent Pattern:**
+- All child scope references follow the same `Weak<>` wrapper pattern
+- Uniform access via `.value` property across the codebase
+- Lazy instantiation - scopes created only when first accessed
+
+**Implementation:**
+```swift
+class Weak<T: AnyObject> {
+    private weak var _value: T?
+    private let provider: () -> T
+    
+    init(_ provider: @escaping () -> T) {
+        self.provider = provider
+    }
+    
+    var value: T {
+        if let value = _value {
+            return value
+        }
+        let newValue = provider()
+        _value = newValue
+        return newValue
+    }
+}
+```
+
+This approach ensures consistent memory management across all child scopes while maintaining the lazy instantiation benefits that are crucial for performance in large scope hierarchies.
+
+### 5. Dependency Injection in Views
 
 ```swift
 struct ChatFeatureRootView: View {
@@ -307,11 +369,22 @@ struct ChatFeatureRootView: View {
         }
     }
 }
+
+// Example of accessing child scopes with .value
+struct ChatListView: View {
+    let scope: ChatScope
+    
+    var body: some View {
+        List(chats) { chat in
+            scope.chatListItemScope.value.listItemView(chat: chat)  // Access via .value
+        }
+    }
+}
 ```
 
 Views receive their dependencies through scopes, enabling clean separation and easy testing.
 
-### 5. Testing with Mock Scopes
+### 6. Testing with Mock Scopes
 
 ```swift
 #if DEBUG
@@ -330,7 +403,7 @@ The scope architecture enables comprehensive testing through:
 - **Isolated Testing**: Each scope can be tested independently
 - **Protocol Abstractions**: Mock routers and dependencies through protocol conformance
 
-### 6. Integration with Navigation Architecture
+### 7. Integration with Navigation Architecture
 
 The scope architecture integrates seamlessly with the navigation architecture:
 
