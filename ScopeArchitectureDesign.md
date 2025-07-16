@@ -46,8 +46,8 @@ final class ChatScope {
     // 3. Local Dependencies - Scope-specific resources
     lazy var messages: [Message] = Message.sampleData
     
-    // 4. Child Scopes - Managing child feature domains
-    lazy var chatListItemScope: ChatListItemScope = .init()
+    // 4. Child Scopes - Managing child feature domains using Weak<> wrapper
+    lazy var chatListItemScope: Weak<ChatListItemScope> = Weak({ ChatListItemScope(parent: self) })
     
     // 5. View Factory Methods - Creating views with proper dependency injection
     func chatFeatureRootview() -> some View {
@@ -72,7 +72,7 @@ final class ChatScope {
 
 3. **Local Dependencies**: Scope-specific state and resources that belong to this particular feature domain
 
-4. **Child Scopes**: References to child scopes that this scope manages, demonstrating the hierarchical nature of the scope tree
+4. **Child Scopes**: References to child scopes using `Weak<>` wrapper for memory efficiency, demonstrating the hierarchical nature of the scope tree
 
 5. **View Factory Methods**: Functions that create views with the scope properly injected, ensuring consistent dependency provision
 
@@ -83,10 +83,10 @@ final class RootScope: ContactScope.Parent, ChatScope.Parent, SettingsScope.Pare
     lazy var rootRouter = Router()
     lazy var dataModel = DataModel()
     
-    // Child scopes - managed feature domains
-    lazy var contactScope: ContactScope = .init(parent: self)
-    lazy var chatScope: ChatScope = .init(parent: self)
-    lazy var settingsScope: SettingsScope = .init(parent: self)
+    // Child scopes - managed feature domains using Weak<> wrapper for memory efficiency
+    lazy var contactScope: Weak<ContactScope> = Weak({ ContactScope(parent: self) })
+    lazy var chatScope: Weak<ChatScope> = Weak({ ChatScope(parent: self) })
+    lazy var settingsScope: Weak<SettingsScope> = Weak({ SettingsScope(parent: self) })
 }
 ```
 
@@ -111,6 +111,13 @@ extension ChatScope {
 extension SettingsScope {
     protocol Parent {
         var settingsRouter: SettingsRouter { get }
+    }
+}
+
+extension ChatListItemScope {
+    protocol Parent {
+        // No parent dependencies needed currently
+        // Demonstrates that even simple scopes follow the parent protocol pattern
     }
 }
 ```
@@ -152,8 +159,11 @@ Scopes enable feature-based organization:
 Scopes are created lazily and maintain references to their parents:
 
 ```swift
-// In RootScope
-lazy var contactScope: ContactScope = .init(parent: self)
+// In RootScope - using Weak<> wrapper
+lazy var contactScope: Weak<ContactScope> = Weak({ ContactScope(parent: self) })
+
+// Access child scopes via .value property
+contactScope.value.someMethod()
 ```
 
 This pattern ensures:
@@ -196,10 +206,69 @@ This creates a clean dependency flow where:
 - Access is controlled and trackable
 - Testing is simplified through protocol mocking
 
+### Memory Management with Weak<> Utility
+
+All child scope references use a `Weak<>` wrapper that provides lazy instantiation with weak reference management:
+
+```swift
+// Consistent pattern for all child scopes
+lazy var childScope: Weak<ChildScope> = Weak({ ChildScope(parent: self) })
+
+// Access child scopes via .value property
+childScope.value.someMethod()
+```
+
+**The Weak<T> Utility Class:**
+
+```swift
+class Weak<T: AnyObject> {
+    private weak var _value: T?
+    private let provider: () -> T
+    
+    init(_ provider: @escaping () -> T) {
+        self.provider = provider
+    }
+    
+    var value: T {
+        if let value = _value {
+            return value
+        }
+        let newValue = provider()
+        _value = newValue
+        return newValue
+    }
+}
+```
+
+**Memory Management Benefits:**
+
+1. **Weak References**: Child scopes are held weakly, allowing them to be deallocated when not actively used
+2. **Lazy Recreation**: If a child scope is deallocated, it's automatically recreated when next accessed
+3. **Memory Efficiency**: Reduces memory footprint by allowing unused scopes to be cleaned up
+4. **Consistent Pattern**: All child scope references follow the same `Weak<>` wrapper pattern
+
+**Access Pattern:**
+
+```swift
+// In views accessing child scopes
+struct ChatListView: View {
+    let scope: ChatScope
+    
+    var body: some View {
+        List(chats) { chat in
+            // Access via .value property
+            scope.chatListItemScope.value.listItemView(chat: chat)
+        }
+    }
+}
+```
+
+This approach ensures efficient memory usage while maintaining the lazy instantiation benefits crucial for performance in large scope hierarchies.
+
 ## Benefits & Design Rationale
 
 ### Scalability
-The tree structure grows naturally with application complexity. New features are added as new scopes without affecting existing code.
+The tree structure grows naturally with application complexity. New features are added as new scopes without affecting existing code. The `Weak<>` wrapper ensures that scope hierarchies remain memory-efficient even as they grow larger.
 
 ### Testability
 Protocol-based parent contracts enable easy mocking:
