@@ -91,7 +91,7 @@ extension Contact {
              id: "123E4567-E89B-12D3-A456-426614174001",
              givenName: "Mei",
              familyName: "Chen",
-             thumbNail: nil,
+             thumbNail: convertImageToData(PlatformImage(named: "AgaOrlova")!),
              phoneNumber: "(510) 555-0102",
              email: "meichen3@icloud.com",
              videoURL: nil
@@ -109,7 +109,6 @@ extension Contact {
              id: "123E4567-E89B-12D3-A456-426614174003",
              givenName: "Bill",
              familyName: "James",
-             thumbNail: convertImageToData(PlatformImage(named: "AgaOrlova")!),
              phoneNumber: "(510) 555-0104",
              email: "billjames2@icloud.com",
              videoURL: Contact.urlForResource(named: "video1", withExtension: "m4v")
