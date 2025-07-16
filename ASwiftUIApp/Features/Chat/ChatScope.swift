@@ -16,6 +16,11 @@ final class ChatScope {
 
     init(parent: Parent) {
         self.parent = parent
+        print("🟢 ChatScope created")
+    }
+    
+    deinit {
+        print("🔴 ChatScope deallocated")
     }
 
     // Dependencies from Parent

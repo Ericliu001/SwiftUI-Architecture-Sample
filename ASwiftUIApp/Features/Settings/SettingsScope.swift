@@ -16,7 +16,13 @@ final class SettingsScope {
 
     init(parent: Parent) {
         self.parent = parent
+        print("🟢 SettingsScope created")
     }
+    
+    deinit {
+        print("🔴 SettingsScope deallocated")
+    }
+    
 
     // Dependencies from Parent
     // Accessing parent-provided resources through lazy properties

@@ -16,6 +16,11 @@ final class ContactScope {
 
     init(parent: Parent) {
         self.parent = parent
+        print("🟢 ContactScope created")
+    }
+    
+    deinit {
+        print("🔴 ContactScope deallocated")
     }
 
     // Dependencies from Parent

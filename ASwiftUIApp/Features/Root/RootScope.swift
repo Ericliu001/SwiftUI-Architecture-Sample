@@ -10,6 +10,15 @@ import Foundation
 import SwiftUI
 
 final class RootScope: ContactScope.Parent, ChatScope.Parent, SettingsScope.Parent {
+    
+    init() {
+        print("🟢 RootScope created")
+    }
+    
+    deinit {
+        print("🔴 RootScope deallocated")
+    }
+    
     // Local Dependencies
     // Root-level resources shared across the application
     lazy var rootRouter = Router()
