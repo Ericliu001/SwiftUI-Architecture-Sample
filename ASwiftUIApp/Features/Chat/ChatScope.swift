@@ -27,7 +27,7 @@ final class ChatScope: ConversationScope.Parent, ChatListItemScope.Parent {
     // Accessing parent-provided resources through lazy properties
     lazy var chatRouter: ChatRouter = parent.chatRouter
     
-
+    lazy var chats: [Chat] = Chat.mock
 
     // Child Scopes
     // Managing child feature domains within the chat scope
