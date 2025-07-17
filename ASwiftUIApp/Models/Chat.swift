@@ -8,6 +8,8 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
+import UniformTypeIdentifiers
 
 @Model
 class Chat: Identifiable {
@@ -20,6 +22,12 @@ class Chat: Identifiable {
         self.id = id
         self.name = name
         self.recipient = recipient
+    }
+}
+
+extension Chat: Transferable {
+    static var transferRepresentation: some TransferRepresentation {
+        ProxyRepresentation(exporting: \.name)
     }
 }
 

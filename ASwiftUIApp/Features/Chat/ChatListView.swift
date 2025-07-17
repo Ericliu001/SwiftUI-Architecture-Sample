@@ -26,6 +26,7 @@ struct ChatListView: View {
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
+                    .draggable(chat)
                 }
             }
         }
